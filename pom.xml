@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.tuebingen.uni.sfs</groupId>
-	<artifactId>NaLiDa2Marc</artifactId>
+	<artifactId>CMDI2HTML</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-	<name>NaLiDa2Marc</name>
+	<name>CMDI2HTML</name>
 
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
