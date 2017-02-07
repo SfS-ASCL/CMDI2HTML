@@ -26,15 +26,15 @@ var Container = React.createClass({displayName: 'Container',
 				React.DOM.div({className: "row clearfix"}, 
 					React.DOM.div({className: "col-md-12 column"}, 
 						React.DOM.div({className: "jumbotron"}, 
-							React.DOM.h2(null, "CMDI-based NaLiDa metadata to MARC 21 metadata transformer"), 
-							      React.DOM.p(null, "This web service allows you to convert NaLiDa metadata records to the Marc21 format."),
+							React.DOM.h2(null, "CMDI-based metadata to HTML (visual presentation) metadata transformer"), 
+							      React.DOM.p(null, "This web service allows you to convert NaLiDa metadata records to HTML."),
 							      React.DOM.hr(null), 
 						FileUploadBox({onUpload: this.upload}), 
 						StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}), 
 						DownloadBox({files: this.state.files}), 
 						React.DOM.hr(null), 
 						React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"), 
-						React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.marc.xml http://shannon.sfs.uni-tuebingen.de:8080/NaLiDa2Marc/rest"
+						React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.html http://shannon.sfs.uni-tuebingen.de:8080/CMDI2HTML/rest"
 						)
 					)
 				)
@@ -101,7 +101,7 @@ var DownloadBox = React.createClass({displayName: 'DownloadBox',
 		iterateMap(this.props.files, function (i, k, v) {
 			files.push(React.DOM.li({key: i, className: "list-group-item"}, React.DOM.a({href: v}, k)));
 		});
-		var header = $.isEmptyObject(files) ? (React.DOM.span(null)) : (React.DOM.p(null, "Download generated MARC 21 file: "));
+		var header = $.isEmptyObject(files) ? (React.DOM.span(null)) : (React.DOM.p(null, "Download generated HTML file: "));
 		return (React.DOM.div(null, " ", header, 
 					React.DOM.ul({className: "downloadBox list-group"}, " ", files, " ")
 				) );
