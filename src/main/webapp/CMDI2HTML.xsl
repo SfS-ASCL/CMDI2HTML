@@ -489,7 +489,7 @@
     <xsl:template match="*:TextCorpusContext">
     </xsl:template>
 
-    <xsl:template match="*:ExperimentContext/*:ExperimentalStudy">
+    <xsl:template match="*:ExperimentContext">
         <div id="tabs-7">
 	<p>
 	  <table>
@@ -500,7 +500,7 @@
               </tr>
 	    </thead>
 	    <tr>
-	      <xsl:for-each select="./*:Experiment">
+	      <xsl:for-each select="./*:ExperimentalStudy/*:Experiment">
 		<tr>
 		  <td><b>Name:</b></td>
 		  <td><xsl:value-of select="./*:ExperimentName"/></td>
@@ -543,7 +543,8 @@
 		  <td>
 		    <xsl:value-of select="./*:Method/*:Elicitation"/>
 		  </td>
-		</tr>		  
+		</tr>
+		<hr></hr>
 	      </xsl:for-each>
 	    </tr> 	    
 	  </table>
