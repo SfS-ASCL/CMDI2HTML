@@ -570,7 +570,7 @@
 		  <td>
 		    <xsl:value-of select="./*:Method/*:Elicitation/*:Variables/*:Variable/*:VariableName"/>
 		    <xsl:text>(</xsl:text>
-		    <xsl:value-of select="./*:Method/*:Elicitation*:Variables/*:Variable/*:VariableType"/>
+		    <xsl:value-of select="./*:Method/*:Elicitation/*:Variables/*:Variable/*:VariableType"/>
 		    <xsl:text>)</xsl:text>
 		  </td>
 		</tr>
