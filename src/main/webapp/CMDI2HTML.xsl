@@ -76,10 +76,18 @@
     <!-- ignore header --> 
     </xsl:template>
 
+    <xsl:template match="/cmd:CMD/cmd:Header">
+    <!-- ignore header --> 
+    </xsl:template>
+    
     <xsl:template match="/cmde:CMD/cmde:Resources">
     <!-- ignore resources -->
     </xsl:template>
-    
+
+    <xsl:template match="/cmd:CMD/cmd:Resources">
+    <!-- ignore resources -->
+    </xsl:template>
+
     <xsl:template match="/cmde:CMD/cmde:Components">
         <xsl:choose>
             <xsl:when test="contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760338')
@@ -541,9 +549,68 @@
 		<tr>
 		  <td><b>Method(s):</b></td>
 		  <td>
-		    <xsl:value-of select="./*:Method/*:Elicitation"/>
+		    <table  border="3" cellpadding="10" cellspacing="10">
+		      <tr>
+			<td><b>Experiment type:</b></td>
+			<td><xsl:value-of select="./*:Method/*:Elicitation//*:ExperimentType"/></td>
+		      </tr>
+		      <tr>
+			<td><b>Elicitation instrument:</b></td>
+			<td><xsl:value-of select="./*:Method/*:Elicitation//*:ElicitationInstrument"/></td>
+		      </tr>
+		      <tr>
+			<td><b>Elicitation software:</b></td>
+			<td><xsl:value-of select="./*:Method/*:Elicitation//*:ElicitationSoftware"/></td>
+		      </tr>		      		      
+		    </table>
 		  </td>
 		</tr>
+		<tr>
+		  <td><b>Variable(s)</b></td>
+		  <td>
+		    <xsl:value-of select="./*:Method/*:Elicitation/*:Variables/*:Variable/*:VariableName"/>
+		    <xsl:text>(</xsl:text>
+		    <xsl:value-of select="./*:Method/*:Elicitation*:Variables/*:Variable/*:VariableType"/>
+		    <xsl:text>)</xsl:text>
+		  </td>
+		</tr>
+		<tr>
+		  <td><b>Participant(s)</b></td>
+		  <td>
+		    <table  border="3" cellpadding="10" cellspacing="10">
+		      <tr>
+			<td><b>Anonymization flag:</b></td>
+			<td><xsl:value-of select="./*:Method/*:Participants/*:AnonymizationFlag"/></td>
+		      </tr>
+		      <tr>
+			<td><b>Sampling method:</b></td>
+			<td><xsl:value-of select="./*:Method/*:Participants/*:SamplingMethod"/></td>
+		      </tr>
+		      <tr>
+			<td><b>Sampling size:</b></td>
+			<td><xsl:value-of select="./*:Method/*:Participants/*:SampleSize"/></td>
+		      </tr>
+		      <tr>
+			<td><b>Sex distribution:</b></td>
+			<td>
+			  <xsl:value-of select="./*:Method/*:Participants//*:ParticipantSex"/>:<xsl:value-of select="./*:Method/*:Participants//*:Size"/>			  
+			</td>
+		      </tr>
+		      <tr>
+			<td><b>Age distribution:</b></td>
+			<td>
+			  <xsl:value-of select="./*:Method/*:Participants//*:ParticipantMeanAge"/>
+			</td>
+		      </tr>
+		      <tr>
+			<td><b>Language variety:</b></td>
+			<td>
+			  <xsl:value-of select="./*:Method/*:Participants//*:VarietyName"/>:<xsl:value-of select="./*:Method/*:Participants//*:NoParticipants"/>			  
+			</td>
+		      </tr>		      
+		    </table>
+		  </td>
+		</tr>		
 		<hr></hr>
 	      </xsl:for-each>
 	    </tr> 	    
