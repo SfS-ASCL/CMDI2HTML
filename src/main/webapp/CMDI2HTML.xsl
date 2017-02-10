@@ -778,6 +778,34 @@
     </xsl:template>
 
     <xsl:template match="*:TextCorpusContext">
+      <div id="tabs-7">
+	<p>
+	  <table>
+	    <thead>
+              <tr>
+		<th><h3>Resource-specific information: Text Corpus</h3></th>
+                <th></th>
+              </tr>
+	    </thead>
+	    <tr>
+              <td><b>Corpus Type: </b></td>
+              <td><xsl:value-of select="./*:CorpusType"/></td>	      	      
+	    </tr>
+	    <tr>
+              <td><b>Description(s): </b></td>
+              <td><xsl:value-of select=".//*:Description"/></td>	      	      
+	    </tr>	    
+	    <tr>
+              <td><b>Validation: </b></td>
+              <td><xsl:value-of select="./ValidationGrp//*:Description"/></td>      	      
+	    </tr>
+	    <tr>
+              <td><b>Subject Language(s): </b></td>
+              <td><xsl:value-of select="./*:SubjectLanguages//*:LanguageName"/></td>	      	      
+	    </tr>	    
+	  </table>
+	</p>
+      </div>                  	          
     </xsl:template>
     
 </xsl:stylesheet>
