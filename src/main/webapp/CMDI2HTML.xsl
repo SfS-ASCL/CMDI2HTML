@@ -355,7 +355,10 @@
 	      <xsl:for-each select="./*:Creators/*:Person">
 		<xsl:value-of select="./*:firstName"/>
 		<xsl:text> </xsl:text>
-		<xsl:value-of select="./*:lastName"/> (<xsl:value-of select="./*:role"/>) 	      
+		<xsl:value-of select="./*:lastName"/>
+		<xsl:if test="'./*:role' != ''">		
+		  (<xsl:value-of select="./*:role"/>)
+		</xsl:if>
 	      </xsl:for-each>
 	      </td>		
 	    </tr>
@@ -413,9 +416,9 @@
               <td><b>Deployment Info: </b></td>
               <td>
 		<xsl:value-of select="./*:DeploymentToolInfo/*:DeploymentTool"/>
-		(
-		<xsl:value-of select="./*:DeploymentToolInfo/*:Descriptions/*:Description"/>		
-		)
+		<xsl:if test="string(./*:DeploymentToolInfo/*:Descriptions/*:Description) !=''">
+		  (<xsl:value-of select="./*:DeploymentToolInfo/*:Descriptions/*:Description"/>)
+		</xsl:if>
 	      </td>	      
 	    </tr>
 	    <tr>
@@ -494,9 +497,6 @@
       </div>            
     </xsl:template>
     
-    <xsl:template match="*:TextCorpusContext">
-    </xsl:template>
-
     <xsl:template match="*:ExperimentContext">
         <div id="tabs-7">
 	<p>
@@ -620,6 +620,70 @@
     </xsl:template>
     
     <xsl:template match="*:ToolContext">
-    </xsl:template>        
+      <div id="tabs-7">
+	<p>
+	  <table>
+	    <thead>
+              <tr>
+		<th><h3>Resource-specific information</h3></th>
+                <th></th>
+              </tr>
+	    </thead>
+	    <tr>
+              <td><b>Tool Classification: </b></td>
+              <td><xsl:value-of select="./*:ToolClassification/*:ToolType"/></td>	      	      
+	    </tr>
+	    <tr>
+              <td><b>Distribution: </b></td>
+              <td><xsl:value-of select="./*:Distribution/*:DistributionType"/></td>	      	      	      
+	    </tr>
+	    <tr>
+	      <td><b>Size: </b></td>
+              <td>
+		<xsl:value-of select="./*:TotalSize/*:Size"/>
+		<xsl:value-of select="./*:TotalSize/*:SizeUnit"/>		
+	      </td>	      	      	      
+	    </tr>
+	    <tr>
+	      <td><b>Input(s): </b></td>
+              <td>
+		<xsl:value-of select="./*:Inputs//*:Description"/>
+	      </td>	      	      	      
+	    </tr>
+	    <tr>
+	      <td><b>Output(s): </b></td>
+              <td>
+		<xsl:value-of select="./*:Outputs//*:Description"/>
+	      </td>	      	      	      
+	    </tr>
+	    <tr>
+	      <td><b>Implementatation(s): </b></td>
+              <td>
+		<xsl:value-of select="./*:Implementations//*:ImplementationLanguage"/>
+	      </td>	      	      	      
+	    </tr>
+	    <tr>
+	      <td><b>Install Environment(s): </b></td>
+              <td>
+		<xsl:value-of select="./*:InstallEnv//*:OperatingSystem"/>
+	      </td>	      	      	      
+	    </tr>
+	    <tr>
+	      <td><b>Tech Environment(s): </b></td>
+              <td>
+		<xsl:value-of select="./*:TechEnv//*:ApplicationType"/>
+	      </td>	      	      	      
+	    </tr> 	    	    	    	    	    	    
+	  </table>
+	</p>
+      </div>                  
+    </xsl:template>
+
+    <xsl:template match="*:SpeechCorpusContext">
+    </xsl:template>
+
+    <xsl:template match="*:TextCorpusContext">
+    </xsl:template>
+    
 </xsl:stylesheet>
         
