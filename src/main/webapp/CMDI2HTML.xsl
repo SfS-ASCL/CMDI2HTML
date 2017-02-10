@@ -51,6 +51,7 @@
             <xsl:when test="contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760338')
                 or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1442920133046')
                 or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1445542587893')
+		or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1485173990943')
                 or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337')">
                 <!-- CMDI 1.1 -->
                 <xsl:call-template name="mainProcessing"></xsl:call-template>	
@@ -63,7 +64,8 @@
 		
 		  - ToolProfile (clarin.eu:cr1:p_1447674760338),
 		  - TextCorpusProfile ('clarin.eu:cr1:p_1442920133046),
-		  - LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), and
+		  - LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), 
+		  - SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and
 		  - ExperimentProfile (clarin.eu:cr1:p_1447674760337).
 		</xsl:text>
                 </error>
@@ -93,6 +95,7 @@
             <xsl:when test="contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760338')
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1442920133046')
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1445542587893')
+		or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1485173990943')		
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337')">
                 <!-- CMDI 1.2 -->
                 <xsl:call-template name="mainProcessing"></xsl:call-template>
@@ -105,7 +108,8 @@
 		
 		- ToolProfile (clarin.eu:cr1:p_1447674760338),
 		- TextCorpusProfile ('clarin.eu:cr1:p_1442920133046),
-		- LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), and
+		- LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), 
+ 		- SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and		
 		- ExperimentProfile (clarin.eu:cr1:p_1447674760337).</xsl:text>
                 </error>
             </xsl:otherwise>
@@ -471,7 +475,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Resource-specific information</h3></th>
+		<th><h3>Resource-specific information: Lexical Resource</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -503,7 +507,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Experiment(s)</h3></th>
+		<th><h3>Resource-specific information: Experiment(s)</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -625,7 +629,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Resource-specific information</h3></th>
+		<th><h3>Resource-specific information: Tool(s)</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -680,6 +684,97 @@
     </xsl:template>
 
     <xsl:template match="*:SpeechCorpusContext">
+      <div id="tabs-7">
+	<p>
+	  <table>
+	    <thead>
+              <tr>
+		<th><h3>Resource-specific information: Speech Corpus</h3></th>
+                <th></th>
+              </tr>
+	    </thead>
+	    <tr>
+              <td><b>Modalities: </b></td>
+              <td><xsl:value-of select="./*:Modalities"/></td>	      	      
+	    </tr>
+	    <tr>
+              <td><b>Mediatype: </b></td>
+              <td><xsl:value-of select="./*:Mediatype"/></td>	      	      
+	    </tr>
+	    <tr>
+              <td><b>Speech Corpus: </b></td>
+              <td>
+		<table  border="3" cellpadding="10" cellspacing="10">
+		  <tr>
+		    <td><b>Duration (effective speech):</b></td>
+		    <td><xsl:value-of select="./*:SpeechCorpus/*:DurationOfEffectiveSpeech"/></td>
+		  </tr>
+		  <tr>
+		    <td><b>Duration (full database):</b></td>
+		    <td><xsl:value-of select="./*:SpeechCorpus/*:DurationOfFullDatabase"/></td>
+		  </tr>
+		  <tr>
+		    <td><b>Number of speakers:</b></td>
+		    <td><xsl:value-of select="./*:SpeechCorpus/*:NumberOfSpeakers"/></td>
+		  </tr>
+		  <tr>
+		    <td><b>Recording Environment:</b></td>
+		    <td>
+		      <xsl:value-of select="./*:SpeechCorpus/*:RecordingEnvironment"/>			  
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><b>Speaker demographics:</b></td>
+		    <td>
+		      <xsl:value-of select="./*:SpeechCorpus/*:SpeakerDemographics"/>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><b>Quality:</b></td>
+		    <td>
+		      <xsl:value-of select="./*:SpeechCorpus/*:Quality"/>			  
+		    </td>
+		  </tr>
+		  <tr>		    
+		    <td><b>Recording Platform (hardware):</b></td>
+		    <td>
+		      <xsl:value-of select="./*:SpeechCorpus/*:RecordingPlatformHardware"/>			  
+		    </td>		    
+		  </tr>
+		  <tr>		    
+		    <td><b>Recording Platform (software):</b></td>
+		    <td>
+		      <xsl:value-of select="./*:SpeechCorpus/*:RecordingPlatformSoftware"/>			  
+		    </td>		    
+		  </tr>
+		  <tr>		    
+		    <td><b>Speech-technical metadata:</b></td>
+		    <td>
+		      <xsl:value-of select="./*:SpeechCorpus/*:SpeechTechnicalMetadata"/>			  
+		    </td>		    
+		  </tr>		      		  
+		</table>
+	      </td>
+	    </tr>
+	    <tr>
+              <td><b>Multilinguality: </b></td>
+              <td><xsl:value-of select="./*:Multilinguality/*:Multilinguality"/></td>
+	    </tr>
+	    <tr>
+              <td><b>Annotation Type(s): </b></td>
+              <td><xsl:value-of select=".//*:AnnotationType"/></td>
+	    </tr>
+	    <tr>
+              <td><b>Subject Language(s): </b></td>
+              <td><xsl:value-of select=".//*:LanguageName"/></td>
+	    </tr>
+	    <tr>
+              <td><b>Type-specific Size info: </b></td>
+              <td><xsl:value-of select="./*:TypeSpecificSizeInfo"/></td>
+	    </tr>	    	    
+	  </table>
+	</p>
+      </div>                  	    
     </xsl:template>
 
     <xsl:template match="*:TextCorpusContext">
