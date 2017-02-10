@@ -278,7 +278,12 @@
 	    <tr>
               <td><b>Institution: </b></td>
               <td>
-		<xsl:value-of select="./*:Institution/Department"/>,
+		<xsl:value-of select="./*:Institution/Department"/>
+		<xsl:if test="./*:Institution/*:Organisation != ''">
+		  <xsl:text>
+		    ,
+		  </xsl:text>
+		</xsl:if>		
 		<xsl:value-of select="./*:Institution/Organisation"/>
 	      </td>
 	    </tr>
@@ -293,7 +298,12 @@
 	    <tr>
               <td><b>Contact: </b></td>
               <td>
-		<xsl:value-of select="./*:Contact/Department"/>,
+		<xsl:value-of select="./*:Contact/Department"/>
+		<xsl:if test="./*:Contact/*:Address != ''">
+		  <xsl:text>
+		    ,
+		  </xsl:text>
+		</xsl:if>		
                 <xsl:value-of select="./*:Contact/Address"/>
 	      </td>
 	    </tr>
@@ -301,8 +311,13 @@
 	    <tr>
               <td><b>Duration: </b></td>
 	      <td>
-		<xsl:value-of select="./*:Duration/StartYear"/>-,
-		<xsl:value-of select="./*:Duration/EndYear"/>
+		<xsl:value-of select="./*:Duration/*:StartYear"/>
+		<xsl:if test="./*:Duration/*:CompletionYear != ''">
+		  <xsl:text>
+		    ,
+		  </xsl:text>
+		</xsl:if>
+		<xsl:value-of select="./*:Duration/*:CompletionYear"/>
 	      </td>
 	    </tr>	    
 	  </table>
@@ -328,13 +343,8 @@
 		<xsl:text> </xsl:text>
 		<xsl:value-of select="./*:Author/*:lastName"/>
 		<xsl:text>: </xsl:text>
-		<em>
-		  <xsl:value-of select="./*:PublicationTitle"/>
-		</em>
-		<xsl:text>PID: </xsl:text>
-		<tt>
-		  <xsl:value-of select="./*:Author/*:lastName"/>: <xsl:value-of select="./*:resolvablePID"/>
-		</tt>
+		<em><xsl:value-of select="./*:PublicationTitle"/></em>
+		<xsl:text>PID: </xsl:text>	<tt><xsl:value-of select="./*:resolvablePID"/></tt>
 	      </xsl:for-each>
 	      </td>
 	    </tr>
@@ -360,7 +370,7 @@
 		<xsl:value-of select="./*:firstName"/>
 		<xsl:text> </xsl:text>
 		<xsl:value-of select="./*:lastName"/>
-		<xsl:if test="'./*:role' != ''">		
+		<xsl:if test="./*:role != ''">		
 		  (<xsl:value-of select="./*:role"/>)
 		</xsl:if>
 	      </xsl:for-each>
@@ -383,7 +393,7 @@
 	    </thead>
 	    <tr>
               <td><b>Documentation Language(s): </b></td>
-              <td><xsl:value-of select="./*:Documentation"/></td>	      	      
+              <td><xsl:value-of select="./*:Documentation//*:LanguageName"/></td>	      	      
 	    </tr>	    
 	  </table>
 	</p>
@@ -491,9 +501,9 @@
 	      <td><b>Headword Type: </b></td>
               <td>
 		<xsl:value-of select="./*:HeadwordType/*:LexicalUnit"/>
-		(
-		<xsl:value-of select="./*:HeadwordType/*:Descriptions/*:Description"/>		
-		)
+		<xsl:if test="./*:HeadwordType/*:Descriptions/*:Description != ''">		
+		  (<xsl:value-of select="./*:HeadwordType/*:Descriptions/*:Description"/>)		
+		</xsl:if>		
 	      </td>	      	      	      
 	    </tr> 	    
 	  </table>
