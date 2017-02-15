@@ -232,12 +232,12 @@
 	    </tr>
 	    <tr>
               <td><b>Location: </b></td>
-              <td><xsl:value-of select="./*:Location/Country/CountryName"/>
+              <td><xsl:value-of select="./*:Location/*:Country/*:CountryName"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr id="generalInfoDescription">
               <td><b>Description: </b></td>
-              <td><xsl:value-of select="./*:Descriptions/Description"/>
+              <td><xsl:value-of select="./*:Descriptions/*:Description"/>
 	      </td>	      	      	      	      
 	    </tr>
 	  </table>
@@ -278,13 +278,12 @@
 	    <tr>
               <td><b>Institution: </b></td>
               <td>
-		<xsl:value-of select="./*:Institution/Department"/>
+		<xsl:value-of select="./*:Institution/*:Department"/>
 		<xsl:if test="./*:Institution/*:Organisation != ''">
-		  <xsl:text>
-		    ,
+		  <xsl:text>, 
 		  </xsl:text>
 		</xsl:if>		
-		<xsl:value-of select="./*:Institution/Organisation"/>
+		<xsl:value-of select="./*:Institution/*:Organisation"/>
 	      </td>
 	    </tr>
 	    <tr id="cooperations">
@@ -298,13 +297,13 @@
 	    <tr>
               <td><b>Contact: </b></td>
               <td>
-		<xsl:value-of select="./*:Contact/Department"/>
+		<xsl:value-of select="./*:Contact/*:Department"/>
 		<xsl:if test="./*:Contact/*:Address != ''">
 		  <xsl:text>
 		    ,
 		  </xsl:text>
 		</xsl:if>		
-                <xsl:value-of select="./*:Contact/Address"/>
+                <xsl:value-of select="./*:Contact/*:Address"/>
 	      </td>
 	    </tr>
 
@@ -335,19 +334,51 @@
                 <th></th>
               </tr>
 	    </thead>
-	    <tr>
-              <td><b>Publication: </b></td>
-	      <td>	      
-	      <xsl:for-each select="./*:Publication">
-		<xsl:value-of select="./*:Author/*:firstName"/>
-		<xsl:text> </xsl:text>
-		<xsl:value-of select="./*:Author/*:lastName"/>
-		<xsl:text>: </xsl:text>
-		<em><xsl:value-of select="./*:PublicationTitle"/></em>
-		<xsl:text>PID: </xsl:text>	<tt><xsl:value-of select="./*:resolvablePID"/></tt>
-	      </xsl:for-each>
-	      </td>
-	    </tr>
+	    <xsl:for-each select="./*:Publication">
+	      <tr>
+		<td>
+		  <table  border="3" cellpadding="10" cellspacing="10">
+		    <tr>
+		      <td><b>Title:</b></td>
+		      <td><xsl:value-of select="./*:PublicationTitle"/></td>
+		    </tr>
+		    <tr>
+		      <td><b>Author(s):</b></td>
+		      <td>
+			<xsl:for-each select="./*:Author">
+			  <xsl:choose>
+			    <xsl:when test="./*:AuthoritativeIDs/*:AuthoritativeID/*:id != ''">
+			      <xsl:element name="a">
+				<xsl:attribute name="href">
+				  <xsl:value-of select=".//*:AuthoritativeID[1]/*:id"/>
+				</xsl:attribute>
+				<xsl:value-of select="./*:firstName"/>
+				<xsl:text> </xsl:text>
+				<xsl:value-of select="./*:lastName"/>
+			      </xsl:element>
+			    </xsl:when>
+			    <xsl:otherwise>
+			      <xsl:value-of select="./*:firstName"/>
+			      <xsl:text> </xsl:text>
+			      <xsl:value-of select="./*:lastName"/>			      
+			    </xsl:otherwise>
+			  </xsl:choose>
+			  <xsl:if test="position()!=last()">, </xsl:if>				    
+			</xsl:for-each>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td><b>Abstract:</b></td>
+		      <td><xsl:value-of select="./*:Descriptions/*:Description"/></td>
+		    </tr>
+		    <tr>
+		      <td><b>PID:</b></td>
+		      <tt><xsl:value-of select="./*:resolvablePID"/></tt>
+		    </tr>		      		      
+		  </table>
+		</td>
+	      </tr>
+	    </xsl:for-each>
 	  </table>
 	</p>
       </div>	    
@@ -366,16 +397,44 @@
 	    <tr>
               <td><b>Person(s): </b></td>
 	      <td>	      
-	      <xsl:for-each select="./*:Creators/*:Person">
-		<xsl:value-of select="./*:firstName"/>
-		<xsl:text> </xsl:text>
-		<xsl:value-of select="./*:lastName"/>
-		<xsl:if test="./*:role != ''">		
-		  (<xsl:value-of select="./*:role"/>)
-		</xsl:if>
-	      </xsl:for-each>
-	      </td>		
+		<xsl:for-each select="./*:Creators/*:Person">
+		  <xsl:choose>
+		    <xsl:when test="./*:AuthoritativeIDs/*:AuthoritativeID/*:id != ''">
+		      <xsl:element name="a">
+			<xsl:attribute name="href">
+			  <xsl:value-of select=".//*:AuthoritativeID[1]/*:id"/>
+			</xsl:attribute>
+			<xsl:value-of select="./*:firstName"/>
+			<xsl:text> </xsl:text>
+			<xsl:value-of select="./*:lastName"/>
+		      </xsl:element>
+		    </xsl:when>
+		    <xsl:otherwise>
+		      <xsl:value-of select="./*:firstName"/>
+		      <xsl:text> </xsl:text>
+		      <xsl:value-of select="./*:lastName"/>			      
+		    </xsl:otherwise>
+		  </xsl:choose>
+		  <xsl:if test="./*:role != ''">		
+		    (<xsl:value-of select="./*:role"/>)
+		  </xsl:if>
+		  <xsl:if test="position()!=last()">, </xsl:if>
+		</xsl:for-each>
+	      </td>
 	    </tr>
+	    <xsl:for-each select="./*:CreationToolInfo">
+	      <tr>
+		<td><b>Creation Tool</b></td>
+		<td>
+		  <xsl:value-of select="./*:CreationTool"/>
+		  <xsl:if test="./*:ToolType != ''">
+		    <xsl:text> (</xsl:text>
+		    <xsl:value-of select="./*:ToolType"/>
+		    <xsl:text>)</xsl:text>		  
+		  </xsl:if>
+		</td>
+	      </tr>
+	    </xsl:for-each>
 	  </table>
 	</p>
       </div>            
@@ -430,7 +489,7 @@
               <td><b>Deployment Info: </b></td>
               <td>
 		<xsl:value-of select="./*:DeploymentToolInfo/*:DeploymentTool"/>
-		<xsl:if test="string(./*:DeploymentToolInfo/*:Descriptions/*:Description) !=''">
+		<xsl:if test="./*:DeploymentToolInfo/*:Descriptions/*:Description !=''">
 		  (<xsl:value-of select="./*:DeploymentToolInfo/*:Descriptions/*:Description"/>)
 		</xsl:if>
 	      </td>	      
@@ -439,7 +498,16 @@
               <td><b>Contact: </b></td>
               <td>
 		<xsl:value-of select="./*:Contact/*:firstname"/>
-		<xsl:value-of select="./*:Contact/*:lastname"/>		
+		<xsl:text> </xsl:text>
+		<xsl:value-of select="./*:Contact/*:lastname"/>
+		<xsl:if test="./*:Contact/*:email != ''">
+		  <xsl:text> e-mail:</xsl:text>
+		  <xsl:value-of select="./*:Contact/*:email"/>
+		</xsl:if>
+		<xsl:if test="./*:Contact/*:telephoneNumber != ''">
+		  <xsl:text> telephone:</xsl:text>
+		  <xsl:value-of select="./*:Contact/*:telephoneNumber"/>
+		</xsl:if>		  		
 	      </td>	      
 	    </tr>
 	    <tr>
@@ -485,7 +553,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Resource-specific information: Lexical Resource</h3></th>
+		<th><h3>Lexical Resource</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -517,7 +585,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Resource-specific information: Experiment(s)</h3></th>
+		<th><h3>Experiment(s)</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -583,9 +651,11 @@
 		  <td><b>Variable(s)</b></td>
 		  <td>
 		    <xsl:value-of select="./*:Method/*:Elicitation/*:Variables/*:Variable/*:VariableName"/>
-		    <xsl:text>(</xsl:text>
-		    <xsl:value-of select="./*:Method/*:Elicitation/*:Variables/*:Variable/*:VariableType"/>
-		    <xsl:text>)</xsl:text>
+		    <xsl:if test="./*:Method/*:Elicitation/*:Variables/*:Variable/*:VariableType != ''">
+		      <xsl:text>(</xsl:text>
+		      <xsl:value-of select="./*:Method/*:Elicitation/*:Variables/*:Variable/*:VariableType"/>
+		      <xsl:text>)</xsl:text>
+		    </xsl:if>
 		  </td>
 		</tr>
 		<tr>
@@ -639,7 +709,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Resource-specific information: Tool(s)</h3></th>
+		<th><h3>Tool(s)</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -699,7 +769,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Resource-specific information: Speech Corpus</h3></th>
+		<th><h3>Speech Corpus</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -793,7 +863,7 @@
 	  <table>
 	    <thead>
               <tr>
-		<th><h3>Resource-specific information: Text Corpus</h3></th>
+		<th><h3>Text Corpus</h3></th>
                 <th></th>
               </tr>
 	    </thead>
@@ -807,7 +877,7 @@
 	    </tr>	    
 	    <tr>
               <td><b>Validation: </b></td>
-              <td><xsl:value-of select="./ValidationGrp//*:Description"/></td>      	      
+              <td><xsl:value-of select="./*:ValidationGrp//*:Description"/></td>      	      
 	    </tr>
 	    <tr>
               <td><b>Subject Language(s): </b></td>

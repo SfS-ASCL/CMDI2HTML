@@ -85,7 +85,7 @@ public class CMDICast {
 	    InputStream foo_xsl_stream = getInputStream( foo_xsl );
             
 	    String name = FilenameUtils.removeExtension(dcfile.getName());
-            File intermediate = new File(dcfile.getParent(), name + ".xml");
+            File intermediate = new File(dcfile.getParent(), name + ".clean.xml");
             File output = new File(dcfile.getParent(), name + ".html");
 
             

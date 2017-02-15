@@ -58,9 +58,10 @@ public class Service {
 				Files.copy(f.toPath(), output);
 			}
 		};
-		return Response.ok(stream, "text/xml")
-				.header("content-disposition", "attachment; filename=" + f.getName())
-				.build();
+		return Response.ok(stream, "text/html").build();
+		// return Response.ok(stream, "text/xml")
+		// 		.header("content-disposition", "attachment; filename=" + f.getName())
+		// 		.build();
 	}
 
 	public static class FileEntry {
@@ -137,6 +138,6 @@ public class Service {
 				Files.copy(fdc.toPath(), output);
 			}
 		};
-		return Response.ok(stream, "text/xml").build();
+		return Response.ok(stream, "text/html").build();
 	}
 }
