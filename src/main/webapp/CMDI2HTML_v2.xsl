@@ -22,6 +22,21 @@
     
     <!-- <xsl:strip-space elements="cmd:Description"/> -->
     <xsl:strip-space elements="*"/>
+    
+    <xsl:param name="stop-words-title" select="'Prof.', 'Prof', 'Dr.', 'Dr', 'PhD', 'PhD.'" />
+    <xsl:variable name="regexTitle" 
+        select="concat('(^|\W)(', string-join($stop-words-title, '|'), ')', '(\W(', string-join($stop-words-title, '|'), '))*($|\W)')" />
+    
+    <xsl:function name="foo:processPersonNames">
+        <xsl:param name="input"/>
+        <xsl:sequence select="replace(foo:rewritePersonName( replace( replace($input, $regexTitle, '$1$5'), '^ +','')), '\s+$', '', 'm')"/>
+    </xsl:function>
+    
+    <xsl:function name="foo:rewritePersonName">
+        <xsl:param name="input"/>
+        <xsl:sequence select="concat( tokenize($input, ' ')[last()], ', ', substring-before( $input, tokenize($input, ' ')[last()])  )"/>
+    </xsl:function>
+    
   
     
     <!-- ToolProfile:            clarin.eu:cr1:p_1447674760338 
@@ -105,7 +120,7 @@
 
       <html>
             <head>
-	      <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/> </title>	      
+	      <title>Resource: <xsl:value-of select="//*:GeneralInfo/*:ResourceName"/> </title>
 	      
 	      <link rel="stylesheet"
 		    href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
@@ -130,7 +145,7 @@
     	});
     </script>
 
-    <h1>Resource: <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></h1>
+    <h1>Resource: <xsl:value-of select="//*:GeneralInfo/*:ResourceName"/></h1>
 
     <div id="tabs">
       <ul>
@@ -151,7 +166,7 @@
     
     </xsl:template>
     
-    <xsl:template match="*[local-name()='GeneralInfo']">
+    <xsl:template match="*:GeneralInfo">
       <div id="tabs-1">
 	<p>
 	  <table>
@@ -163,86 +178,86 @@
 	    </thead>
 	    <tr>
               <td><b>Resource Name: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ResourceName']"/></td>
+              <td><xsl:value-of select="./*:ResourceName"/></td>
 	    </tr>
 	    <tr>
               <td><b>Resource Title: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ResourceTitle']"/>
+              <td><xsl:value-of select="./*:ResourceTitle"/>
 	      </td>
 	    </tr>
 	    <tr>
               <td><b>Resource Class: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ResourceClass']"/>
+              <td><xsl:value-of select="./*:ResourceClass"/>
 	      </td>	      
 	    </tr>
 	    <tr>
               <td><b>Version: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Version']"/>
+              <td><xsl:value-of select="./*:Version"/>
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Life Cycle Status: </b></td>
-              <td><xsl:value-of select="./*[local-name()='LifeCycleStatus']"/>
+              <td><xsl:value-of select="./*:LifeCycleStatus"/>
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Start Year: </b></td>
-              <td><xsl:value-of select="./*[local-name()='StartYear']"/>
+              <td><xsl:value-of select="./*:StartYear"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Completion Year: </b></td>
-              <td><xsl:value-of select="./*[local-name()='CompletionYear']"/>
+              <td><xsl:value-of select="./*:CompletionYear"/>
 	      </td>	      	      	      	      
 	    </tr>	    
 	    <tr>
               <td><b>Publication Date: </b></td>
-              <td><xsl:value-of select="./*[local-name()='PublicationDate']"/>
+              <td><xsl:value-of select="./*:PublicationDate"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Last Update: </b></td>
-              <td><xsl:value-of select="./*[local-name()='LastUpdate']"/>
+              <td><xsl:value-of select="./*:LastUpdate"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Time Coverage: </b></td>
-              <td><xsl:value-of select="./*[local-name()='TimeCoverage']"/>
+              <td><xsl:value-of select="./*:TimeCoverage"/>
 	      </td>	      	      	      	      
             </tr>
 	    <tr>
               <td><b>Legal Owner: </b></td>
-              <td><xsl:value-of select="./*[local-name()='LegalOwner']"/>
+              <td><xsl:value-of select="./*:LegalOwner"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Genre: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Genre']"/>
+              <td><xsl:value-of select="./*:Genre"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Field of Research: </b></td>
-              <td><xsl:value-of select="./*[local-name()='FieldOfResearch']"/>
+              <td><xsl:value-of select="./*:FieldOfResearch"/>
 	      </td>	      	      	      	      
 	    </tr>	    	    
 	    <tr>
               <td><b>Location: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Location']/*[local-name()='Country']/*[local-name()='CountryName']"/>
+              <td><xsl:value-of select="./*:Location/*:Country/*:CountryName"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Description: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Descriptions']/*[local-name()='Description']"/>
+              <td><xsl:value-of select="./*:Descriptions/*:Description"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Tags: </b></td>
-              <td><xsl:value-of select="./*[local-name()='tags']//*[local-name()='tag']"/>
+              <td><xsl:value-of select="./*:tags//*:tag"/>
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Modality Info: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ModalityInfo']//*[local-name()='Modalities']"/>
+              <td><xsl:value-of select="./*:ModalityInfo//*:Modalities"/>
 	      </td>	      	      	      	      
 	    </tr>	    	    
 	  </table>
@@ -250,7 +265,7 @@
       </div>
     </xsl:template>
 
-    <xsl:template match="*[local-name()='Project']">
+    <xsl:template match="*:Project">
       <div id="tabs-2">
 	<p>
 	  <table>
@@ -262,48 +277,48 @@
 	    </thead>
 	    <tr>
               <td><b>Project Name: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ProjectName']"/></td>
+              <td><xsl:value-of select="./*:ProjectName"/></td>
 	    </tr>
 	    <tr>
               <td><b>Project Title: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ProjectTitle']"/></td>
+              <td><xsl:value-of select="./*:ProjectTitle"/></td>
 	    </tr>
 	    <tr>
               <td><b>Project ID: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ProjectID']"/></td>
+              <td><xsl:value-of select="./*:ProjectID"/></td>
 	    </tr>
 	    <tr>
               <td><b>Url: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Url']"/></td>
+              <td><xsl:value-of select="./*:Url"/></td>
 	    </tr>
 	    <tr>
               <td><b>Funder: </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Funder']/*[local-name()='fundingAgency']"/>
-		<xsl:if test="./*[local-name()='Funder']/*[local-name()='fundingReferenceNumber'] != ''">
+		<xsl:value-of select="./*:Funder/*:fundingAgency"/>
+		<xsl:if test="./*:Funder/*:fundingReferenceNumber != ''">
 		  <xsl:text>, with reference: 
 		  </xsl:text>
 		</xsl:if>		
-		<xsl:value-of select="./*[local-name()='Funder']/*[local-name()='fundingReferenceNumber']"/>		
+		<xsl:value-of select="./*:Funder/*:fundingReferenceNumber"/>		
 	      </td>
 	    </tr>
 	    <tr>
               <td><b>Institution: </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Institution']/*[local-name()='Department']"/>
-		<xsl:if test="./*[local-name()='Institution']/*[local-name()='Organisation']/*[local-name()='name'] != ''">
+		<xsl:value-of select="./*:Institution/*:Department"/>
+		<xsl:if test="./*:Institution/*:Organisation/*:name != ''">
 		  <xsl:text>, 
 		  </xsl:text>
 		</xsl:if>		
-		<xsl:value-of select="./*[local-name()='Institution']/*[local-name()='Organisation']/*[local-name()='name']"/>
+		<xsl:value-of select="./*:Institution/*:Organisation/*:name"/>
 	      </td>
 	    </tr>
 	    <tr>
               <td><b>Cooperations: </b></td>
               <td>
 		<!-- omitted Cooperation dept., organisation, url, and descriptions -->
-		<xsl:for-each select="./*[local-name()='Cooperation']">		
-		  <xsl:value-of select="./*[local-name()='CooperationPartner']"/>
+		<xsl:for-each select="./*:Cooperation">		
+		  <xsl:value-of select="./*:CooperationPartner"/>
 		  <xsl:if test="position()!=last()">, </xsl:if>				    
 		</xsl:for-each>		  
 	      </td>	      
@@ -311,27 +326,27 @@
 	    <tr>
               <td><b>Person(s): </b></td>
 	      <td>
-		<xsl:for-each select="./*[local-name()='Person']">
+		<xsl:for-each select="./*:Person">
 		  <xsl:choose>
-		    <xsl:when test="./*[local-name()='AuthoritativeIDs']/*[local-name()='AuthoritativeID']/*[local-name()='id'] != ''">
+		    <xsl:when test="./*:AuthoritativeIDs/*:AuthoritativeID/*:id != ''">
 		      <xsl:element name="a">
 			<xsl:attribute name="href">
-			  <xsl:value-of select=".//*[local-name()='AuthoritativeID'][1]/*[local-name()='id']"/>
+			  <xsl:value-of select=".//*:AuthoritativeID[1]/*:id"/>
 			</xsl:attribute>
-			<xsl:value-of select="./*[local-name()='firstName']"/>
+			<xsl:value-of select="./*:firstName"/>
 			<xsl:text> </xsl:text>
-			<xsl:value-of select="./*[local-name()='lastName']"/>
+			<xsl:value-of select="./*:lastName"/>
 		      </xsl:element>
 		    </xsl:when>
 		    <xsl:otherwise>
-		      <xsl:value-of select="./*[local-name()='firstName']"/>
+		      <xsl:value-of select="./*:firstName"/>
 		      <xsl:text> </xsl:text>
-		      <xsl:value-of select="./*[local-name()='lastName']"/>			      
+		      <xsl:value-of select="./*:lastName"/>			      
 		    </xsl:otherwise>
 		  </xsl:choose>
-		  <xsl:if test="./*[local-name()='Role'] != ''">
+		  <xsl:if test="./*:Role != ''">
 		    <xsl:text> (</xsl:text>
-			<xsl:value-of select="./*[local-name()='Role']"/>		    
+			<xsl:value-of select="./*:Role"/>		    
 		    <xsl:text>)</xsl:text>		    
 		</xsl:if>				  
 		  <xsl:if test="position()!=last()">, </xsl:if>				    
@@ -340,18 +355,18 @@
 	    </tr>
 	    <tr>
               <td><b>Descriptions: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Descriptions']/*[local-name()='Description']"/></td>	      	      
+              <td><xsl:value-of select="./*:Descriptions/*:Description"/></td>	      	      
 	    </tr>
 	    <tr>
               <td><b>Duration: </b></td>
 	      <td>
-		<xsl:value-of select="./*[local-name()='Duration']/*[local-name()='StartYear']"/>
-		<xsl:if test="./*[local-name()='Duration']/*[local-name()='CompletionYear'] != ''">
+		<xsl:value-of select="./*:Duration/*:StartYear"/>
+		<xsl:if test="./*:Duration/*:CompletionYear != ''">
 		  <xsl:text>
 		    --
 		  </xsl:text>
 		</xsl:if>
-		<xsl:value-of select="./*[local-name()='Duration']/*[local-name()='CompletionYear']"/>
+		<xsl:value-of select="./*:Duration/*:CompletionYear"/>
 	      </td>
 	    </tr>	    
 	  </table>
@@ -359,7 +374,7 @@
       </div>
     </xsl:template>
     
-    <xsl:template match="*[local-name()='Publications']">
+    <xsl:template match="*:Publications">
       <div id="tabs-3">
 	<p>
 	  <table>
@@ -369,33 +384,33 @@
                 <th></th>
               </tr>
 	    </thead>
-	    <xsl:for-each select="./*[local-name()='Publication']">
+	    <xsl:for-each select="./*:Publication">
 	      <tr>
 		<td>
 		  <table  border="3" cellpadding="10" cellspacing="10">
 		    <tr>
 		      <td><b>Title:</b></td>
-		      <td><xsl:value-of select="./*[local-name()='PublicationTitle']"/></td>
+		      <td><xsl:value-of select="./*:PublicationTitle"/></td>
 		    </tr>
 		    <tr>
 		      <td><b>Author(s):</b></td>
 		      <td>
-			<xsl:for-each select="./*[local-name()='Author']">
+			<xsl:for-each select="./*:Author">
 			  <xsl:choose>
-			    <xsl:when test="./*[local-name()='AuthoritativeIDs']/*[local-name()='AuthoritativeID']/*[local-name()='id'] != ''">
+			    <xsl:when test="./*:AuthoritativeIDs/*:AuthoritativeID/*:id != ''">
 			      <xsl:element name="a">
 				<xsl:attribute name="href">
-				  <xsl:value-of select=".//*[local-name()='AuthoritativeID'][1]/*[local-name()='id']"/>
+				  <xsl:value-of select=".//*:AuthoritativeID[1]/*:id"/>
 				</xsl:attribute>
-				<xsl:value-of select="./*[local-name()='firstName']"/>
+				<xsl:value-of select="./*:firstName"/>
 				<xsl:text> </xsl:text>
-				<xsl:value-of select="./*[local-name()='lastName']"/>
+				<xsl:value-of select="./*:lastName"/>
 			      </xsl:element>
 			    </xsl:when>
 			    <xsl:otherwise>
-			      <xsl:value-of select="./*[local-name()='firstName']"/>
+			      <xsl:value-of select="./*:firstName"/>
 			      <xsl:text> </xsl:text>
-			      <xsl:value-of select="./*[local-name()='lastName']"/>			      
+			      <xsl:value-of select="./*:lastName"/>			      
 			    </xsl:otherwise>
 			  </xsl:choose>
 			  <xsl:if test="position()!=last()">, </xsl:if>				    
@@ -404,11 +419,11 @@
 		    </tr>
 		    <tr>
 		      <td><b>Abstract:</b></td>
-		      <td><xsl:value-of select="./*[local-name()='Descriptions']/*[local-name()='Description']"/></td>
+		      <td><xsl:value-of select="./*:Descriptions/*:Description"/></td>
 		    </tr>
 		    <tr>
 		      <td><b>PID:</b></td>
-		      <tt><xsl:value-of select="./*[local-name()='resolvablePID']"/></tt>
+		      <tt><xsl:value-of select="./*:resolvablePID"/></tt>
 		    </tr>		      		      
 		  </table>
 		</td>
@@ -419,7 +434,7 @@
       </div>	    
     </xsl:template>
     
-    <xsl:template match="*[local-name()='Creation']">
+    <xsl:template match="*:Creation">
       <div id="tabs-4">
 	<p>
 	  <table>
@@ -431,44 +446,44 @@
 	    </thead>
 	    <tr>
 	      <td><b>Topic:</b></td>
-	      <td><xsl:value-of select="./*[local-name()='Topic']"/></td>
+	      <td><xsl:value-of select="./*:Topic"/></td>
 	    </tr>	    
 	    <tr>
               <td><b>Creator(s): </b></td>
 	      <td>	      
-		<xsl:for-each select="./*[local-name()='Creators']/*[local-name()='Person']">
+		<xsl:for-each select="./*:Creators/*:Person">
 		  <xsl:choose>
-		    <xsl:when test="./*[local-name()='AuthoritativeIDs']/*[local-name()='AuthoritativeID']/*[local-name()='id'] != ''">
+		    <xsl:when test="./*:AuthoritativeIDs/*:AuthoritativeID/*:id != ''">
 		      <xsl:element name="a">
 			<xsl:attribute name="href">
-			  <xsl:value-of select=".//*[local-name()='AuthoritativeID'][1]/*[local-name()='id']"/>
+			  <xsl:value-of select=".//*:AuthoritativeID[1]/*:id"/>
 			</xsl:attribute>
-			<xsl:value-of select="./*[local-name()='firstName']"/>
+			<xsl:value-of select="./*:firstName"/>
 			<xsl:text> </xsl:text>
-			<xsl:value-of select="./*[local-name()='lastName']"/>
+			<xsl:value-of select="./*:lastName"/>
 		      </xsl:element>
 		    </xsl:when>
 		    <xsl:otherwise>
-		      <xsl:value-of select="./*[local-name()='firstName']"/>
+		      <xsl:value-of select="./*:firstName"/>
 		      <xsl:text> </xsl:text>
-		      <xsl:value-of select="./*[local-name()='lastName']"/>			      
+		      <xsl:value-of select="./*:lastName"/>			      
 		    </xsl:otherwise>
 		  </xsl:choose>
-		  <xsl:if test="./*[local-name()='role'] != ''">		
-		    (<xsl:value-of select="./*[local-name()='role']"/>)
+		  <xsl:if test="./*:role != ''">		
+		    (<xsl:value-of select="./*:role"/>)
 		  </xsl:if>
 		  <xsl:if test="position()!=last()">, </xsl:if>
 		</xsl:for-each>
 	      </td>
 	    </tr>
-	    <xsl:for-each select="./*[local-name()='CreationToolInfo']">
+	    <xsl:for-each select="./*:CreationToolInfo">
 	      <tr>
 		<td><b>Creation Tool</b></td>
 		<td>
-		  <xsl:value-of select="./*[local-name()='CreationTool']"/>
-		  <xsl:if test="./*[local-name()='ToolType'] != ''">
+		  <xsl:value-of select="./*:CreationTool"/>
+		  <xsl:if test="./*:ToolType != ''">
 		    <xsl:text> (</xsl:text>
-		    <xsl:value-of select="./*[local-name()='ToolType']"/>
+		    <xsl:value-of select="./*:ToolType"/>
 		    <xsl:text>)</xsl:text>		  
 		  </xsl:if>
 		</td>
@@ -488,7 +503,7 @@
       </div>            
     </xsl:template>
     
-    <xsl:template match="*[local-name()='Documentations']">
+    <xsl:template match="*:Documentations">
       <div id="tabs-5">
 	<p>
 	  <table>
@@ -498,13 +513,13 @@
                 <th></th>
               </tr>
 	    </thead>
-	    <xsl:for-each select="./*[local-name()='Documentation']">	    
+	    <xsl:for-each select="./*:Documentation">	    
 	      <tr>
 		<table>
 		  <tr>
 		    <td><b>Documentation Type(s): </b></td>
 		    <td>
-		      <xsl:for-each select="./*[local-name()='DocumentationType']">
+		      <xsl:for-each select="./*:DocumentationType">
 			<xsl:value-of select="."/>
 			<xsl:if test="position()!=last()">, </xsl:if>
 		      </xsl:for-each>
@@ -513,7 +528,7 @@
 		  <tr>
 		    <td><b>File Name(s): </b></td>
 		    <td>
-		      <xsl:for-each select="./*[local-name()='FileName']">
+		      <xsl:for-each select="./*:FileName">
 			<xsl:value-of select="."/>
 			<xsl:if test="position()!=last()">, </xsl:if>
 		      </xsl:for-each>
@@ -521,14 +536,14 @@
 		  </tr>
 		  <tr>
 		    <td><b>URL: </b></td>
-		    <td><xsl:value-of select="./*[local-name()='FileName']"/></td>
+		    <td><xsl:value-of select="./*:FileName"/></td>
 		  </tr>	    	    	    	    
 		  <tr>
 		    <td><b>Documentation Language(s): </b></td>
 		    <td>
 		      <!-- omitted ISO639 code -->
-		      <xsl:for-each select="./*[local-name()='DocumentationLanguages']">
-			<xsl:value-of select="./*[local-name()='DocumentationLanguage']/*[local-name()='Language']//*[local-name()='LanguageName']"/>
+		      <xsl:for-each select="./*:DocumentationLanguages">
+			<xsl:value-of select="./*:DocumentationLanguage/*:Language//*:LanguageName"/>
 			<xsl:if test="position()!=last()">, </xsl:if>
 		      </xsl:for-each>
 		    </td>	      	      	      
@@ -536,7 +551,7 @@
 		  <tr>
 		    <td><b>Descriptions(s): </b></td>
 		    <td>
-		      <xsl:for-each select="./*[local-name()='Description']">
+		      <xsl:for-each select="./*:Description">
 			<xsl:value-of select="."/>
 			<xsl:if test="position()!=last()">, </xsl:if>
 		      </xsl:for-each>
@@ -550,7 +565,7 @@
       </div>            
     </xsl:template>
 
-    <xsl:template match="*[local-name()='Access']">
+    <xsl:template match="*:Access">
       <div id="tabs-6">
 	<p>
 	  <table>
@@ -563,58 +578,58 @@
 	    <!-- assuming single occurrence of sub-node -->
 	    <tr>
               <td><b>Availability: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Availability']"/></td>
+              <td><xsl:value-of select="./*:Availability"/></td>
 	    </tr>
 	    <tr>
               <td><b>Distribution Medium: </b></td>
-              <td><xsl:value-of select="./*[local-name()='DistributionMedium']"/></td>	      
+              <td><xsl:value-of select="./*:DistributionMedium"/></td>	      
 	    </tr>
 	    <tr>
               <td><b>Catalogue Link: </b></td>
-              <td><xsl:value-of select="./*[local-name()='CatalogueLink']"/></td>	      
+              <td><xsl:value-of select="./*:CatalogueLink"/></td>	      
 	    </tr>
 	    <tr>
               <td><b>Price: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Price']"/></td>	      
+              <td><xsl:value-of select="./*:Price"/></td>	      
 	    </tr>
 	    <tr>
               <td><b>Licence: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Licence']"/></td>	      
+              <td><xsl:value-of select="./*:Licence"/></td>	      
 	    </tr>	    
 	    <tr>
               <td><b>Contact: </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Contact']/*[local-name()='firstname']"/>
+		<xsl:value-of select="./*:Contact/*:firstname"/>
 		<xsl:text> </xsl:text>
-		<xsl:value-of select="./*[local-name()='Contact']/*[local-name()='lastname']"/>
-		<xsl:if test="./*[local-name()='Contact']/*[local-name()='role'] != ''">
-		  (<xsl:value-of select="./*[local-name()='Contact']/*[local-name()='role']"/>)
+		<xsl:value-of select="./*:Contact/*:lastname"/>
+		<xsl:if test="./*:Contact/*:role != ''">
+		  (<xsl:value-of select="./*:Contact/*:role"/>)
 		</xsl:if>		
-		<xsl:if test="./*[local-name()='Contact']/*[local-name()='email'] != ''">
+		<xsl:if test="./*:Contact/*:email != ''">
 		  <xsl:text>, e-mail:</xsl:text>
-		  <xsl:value-of select="./*[local-name()='Contact']/*[local-name()='email']"/>
+		  <xsl:value-of select="./*:Contact/*:email"/>
 		</xsl:if>
-		<xsl:if test="./*[local-name()='Contact']/*[local-name()='telephoneNumber'] != ''">
+		<xsl:if test="./*:Contact/*:telephoneNumber != ''">
 		  <xsl:text>, telephone:</xsl:text>
-		  <xsl:value-of select="./*[local-name()='Contact']/*[local-name()='telephoneNumber']"/>
+		  <xsl:value-of select="./*:Contact/*:telephoneNumber"/>
 		</xsl:if>		  		
 	      </td>	      
 	    </tr>
 	    <tr>
               <td><b>Deployment Tool Info: </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='DeploymentToolInfo']/*[local-name()='DeploymentTool']"/>
-		<xsl:if test="./*[local-name()='DeploymentToolInfo']/*[local-name()='ToolType'] !=''">
-		  (<xsl:value-of select="./*[local-name()='DeploymentToolInfo']/*[local-name()='ToolType']"/>)
+		<xsl:value-of select="./*:DeploymentToolInfo/*:DeploymentTool"/>
+		<xsl:if test="./*:DeploymentToolInfo/*:ToolType !=''">
+		  (<xsl:value-of select="./*:DeploymentToolInfo/*:ToolType"/>)
 		</xsl:if>
-		<xsl:if test="./*[local-name()='DeploymentToolInfo']/*[local-name()='Version'] !=''">
-		  , Version: <xsl:value-of select="./*[local-name()='DeploymentToolInfo']/*[local-name()='Version']"/>.
+		<xsl:if test="./*:DeploymentToolInfo/*:Version !=''">
+		  , Version: <xsl:value-of select="./*:DeploymentToolInfo/*:Version"/>.
 		</xsl:if>		
 	      </td>	      
 	    </tr>	    
 	    <tr>
               <td><b>Descriptions: </b></td>
-              <td><xsl:value-of select=".//*[local-name()='Description']"/></td>	      
+              <td><xsl:value-of select=".//*:Description"/></td>	      
 	    </tr>
 	  </table>
 	</p>
@@ -622,7 +637,7 @@
     </xsl:template>
     
     
-    <xsl:template match="*[local-name()='ResourceProxyListInfo']">
+    <xsl:template match="*:ResourceProxyListInfo">
       <!-- ignore content, generate About instead, still to do! -->
       <div id="tabs-8">
 	<p>
@@ -649,7 +664,7 @@
     
     <!-- Resource type specific templates -->
     
-    <xsl:template match="*[local-name()='LexicalResourceContext']">
+    <xsl:template match="*:LexicalResourceContext">
       <div id="tabs-7">
 	<p>
 	  <table>
@@ -661,32 +676,32 @@
 	    </thead>
 	    <tr>
               <td><b>Lexicon Type: </b></td>
-              <td><xsl:value-of select="./*[local-name()='LexiconType']"/></td>	      	      
+              <td><xsl:value-of select="./*:LexiconType"/></td>	      	      
 	    </tr>
 	    <tr>
               <td><b>Subject Language(s): </b></td>
-              <td><xsl:value-of select="./*[local-name()='SubjectLanguages']/*[local-name()='SubjectLanguage']/*[local-name()='Language']/*[local-name()='LanguageName']"/></td>
+              <td><xsl:value-of select="./*:SubjectLanguages/*:SubjectLanguage/*:Language/*:LanguageName"/></td>
 	    </tr>
 	    <tr>
               <td><b>Auxiliary Language(s): </b></td>
-              <td><xsl:value-of select="./*[local-name()='AuxiliaryLanguages']/*[local-name()='Language']/*[local-name()='LanguageName']"/></td>
+              <td><xsl:value-of select="./*:AuxiliaryLanguages/*:Language/*:LanguageName"/></td>
 	    </tr>	    
 	    <tr>
 	      <td><b>Headword Type: </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='HeadwordType']/*[local-name()='LexicalUnit']"/>
-		<xsl:if test="./*[local-name()='HeadwordType']/*[local-name()='Descriptions']/*[local-name()='Description'] != ''">		
-		  (<xsl:value-of select="./*[local-name()='HeadwordType']/*[local-name()='Descriptions']/*[local-name()='Description']"/>)		
+		<xsl:value-of select="./*:HeadwordType/*:LexicalUnit"/>
+		<xsl:if test="./*:HeadwordType/*:Descriptions/*:Description != ''">		
+		  (<xsl:value-of select="./*:HeadwordType/*:Descriptions/*:Description"/>)		
 		</xsl:if>		
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
               <td><b>Type-specific Size Info(s): </b></td>
-              <td><xsl:value-of select="./*[local-name()='TypeSpecificSizeInfo']/*[local-name()='TypeSpecificSize']/*[local-name()='Size']"/></td>
+              <td><xsl:value-of select="./*:TypeSpecificSizeInfo/*:TypeSpecificSize/*:Size"/></td>
 	    </tr>
 	    <tr>
               <td><b>Description: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Descriptions']/*[local-name()='Description']"/>
+              <td><xsl:value-of select="./*:Descriptions/*:Description"/>
 	      </td>	      	      	      	      
 	    </tr>	    
 	  </table>
@@ -694,7 +709,7 @@
       </div>            
     </xsl:template>
     
-    <xsl:template match="*[local-name()='ExperimentContext']">
+    <xsl:template match="*:ExperimentContext">
         <div id="tabs-7">
 	<p>
 	  <table>
@@ -705,44 +720,44 @@
               </tr>
 	    </thead>
 	    <tr>
-	      <xsl:for-each select="./*[local-name()='ExperimentalStudy']/*[local-name()='Experiment']">
+	      <xsl:for-each select="./*:ExperimentalStudy/*:Experiment">
 		<tr>
 		  <td><b>Name:</b></td>
-		  <td><xsl:value-of select="./*[local-name()='ExperimentName']"/></td>
+		  <td><xsl:value-of select="./*:ExperimentName"/></td>
 		</tr>
 		<tr>
 		  <td><b>Title:</b></td>
-		  <td><xsl:value-of select="./*[local-name()='ExperimentTitle']"/></td>
+		  <td><xsl:value-of select="./*:ExperimentTitle"/></td>
 		</tr>
 		<tr>
 		  <td><b>Paradigm:</b></td>
-		  <td><xsl:value-of select="./*[local-name()='ExperimentalParadigm']"/></td>
+		  <td><xsl:value-of select="./*:ExperimentalParadigm"/></td>
 		</tr>
 		<tr>		
 		  <td><b>Description:</b></td>
-		  <td><xsl:value-of select="./*[local-name()='Descriptions']/*[local-name()='Description']"/></td>
+		  <td><xsl:value-of select="./*:Descriptions/*:Description"/></td>
 		</tr>
 		<!-- more here -->
 		<tr>		
 		  <td><b>Experimental Quality:</b></td>
-		  <td><xsl:value-of select="./*[local-name()='ExperimentalQuality']/*[local-name()='QualityCriteria']"/></td>
+		  <td><xsl:value-of select="./*:ExperimentalQuality/*:QualityCriteria"/></td>
 		</tr>		
 		<tr>		
 		  <td><b>Subject Language(s):</b></td>
-		  <td><xsl:value-of select="./*[local-name()='SubjectLanguages']/*[local-name()='SubjectLanguage']/*[local-name()='Language']/*[local-name()='LanguageName']"/></td>
+		  <td><xsl:value-of select="./*:SubjectLanguages/*:SubjectLanguage/*:Language/*:LanguageName"/></td>
 		</tr>
 		<tr>		
 		  <td><b>Material(s):</b></td>
 		  <td>
 		    <ul>
-		      <xsl:for-each select="./*[local-name()='Materials']/*[local-name()='Material']">
+		      <xsl:for-each select="./*:Materials/*:Material">
 			<li>
-			  <xsl:value-of select="./*[local-name()='Domain']"/>
-			  <xsl:if test="./*[local-name()='Descriptions']/*[local-name()='Description'] != ''">
+			  <xsl:value-of select="./*:Domain"/>
+			  <xsl:if test="./*:Descriptions/*:Description != ''">
 			    <xsl:text>
 			      : 
 			    </xsl:text>
-			    <xsl:value-of select="./*[local-name()='Descriptions']/*[local-name()='Description']"/>
+			    <xsl:value-of select="./*:Descriptions/*:Description"/>
 			  </xsl:if>
 			</li>
 		    </xsl:for-each>
@@ -752,7 +767,7 @@
 		<tr>		
 		  <td><b>Hypotheses:</b></td>
 		  <td>
-		    <xsl:value-of select="./*[local-name()='Hypotheses']/*[local-name()='Hypothesis']/*[local-name()='Descriptions']/*[local-name()='Description']"/>
+		    <xsl:value-of select="./*:Hypotheses/*:Hypothesis/*:Descriptions/*:Description"/>
 		  </td>
 		</tr>
 		<!-- much more here -->		
@@ -762,26 +777,26 @@
 		    <table  border="3" cellpadding="10" cellspacing="10">
 		      <tr>
 			<td><b>Experiment type:</b></td>
-			<td><xsl:value-of select="./*[local-name()='Method']/*[local-name()='Elicitation']//*[local-name()='ExperimentType']"/></td>
+			<td><xsl:value-of select="./*:Method/*:Elicitation//*:ExperimentType"/></td>
 		      </tr>
 		      <tr>
 			<td><b>Elicitation instrument:</b></td>
-			<td><xsl:value-of select="./*[local-name()='Method']/*[local-name()='Elicitation']//*[local-name()='ElicitationInstrument']"/></td>
+			<td><xsl:value-of select="./*:Method/*:Elicitation//*:ElicitationInstrument"/></td>
 		      </tr>
 		      <tr>
 			<td><b>Elicitation software:</b></td>
-			<td><xsl:value-of select="./*[local-name()='Method']/*[local-name()='Elicitation']//*[local-name()='ElicitationSoftware']"/></td>
+			<td><xsl:value-of select="./*:Method/*:Elicitation//*:ElicitationSoftware"/></td>
 		      </tr>
 		      <tr>
 			<td><b>Variable(s)</b></td>
 			<td>
 			  <ul>
-			    <xsl:for-each select="./*[local-name()='Method']/*[local-name()='Elicitation']/*[local-name()='Variables']/*[local-name()='Variable']">
+			    <xsl:for-each select="./*:Method/*:Elicitation/*:Variables/*:Variable">
 			      <li>
-				<xsl:value-of select="./*[local-name()='VariableName']"/>
-				<xsl:if test="./*[local-name()='VariableType'] != ''">
+				<xsl:value-of select="./*:VariableName"/>
+				<xsl:if test="./*:VariableType != ''">
 				  <xsl:text> (</xsl:text>
-				  <xsl:value-of select="./*[local-name()='VariableType']"/>
+				  <xsl:value-of select="./*:VariableType"/>
 				  <xsl:text>)</xsl:text>
 				</xsl:if>
 			      </li>
@@ -795,19 +810,19 @@
 			  <table  border="3" cellpadding="10" cellspacing="10">
 			    <tr>
 			      <td><b>Anonymization flag:</b></td>
-			      <td><xsl:value-of select="./*[local-name()='Method']/*[local-name()='Participants']/*[local-name()='AnonymizationFlag']"/></td>
+			      <td><xsl:value-of select="./*:Method/*:Participants/*:AnonymizationFlag"/></td>
 			    </tr>
 			    <tr>
 			      <td><b>Sampling method:</b></td>
-			      <td><xsl:value-of select="./*[local-name()='Method']/*[local-name()='Participants']/*[local-name()='SamplingMethod']"/></td>
+			      <td><xsl:value-of select="./*:Method/*:Participants/*:SamplingMethod"/></td>
 			    </tr>
 			    <tr>
 			      <td><b>Sampling size:</b></td>
 			      <td>
-				<xsl:value-of select="./*[local-name()='Method']/*[local-name()='Participants']/*[local-name()='SampleSize']/*[local-name()='Size']"/>
-				<xsl:if test="./*[local-name()='Method']/*[local-name()='Participants']/*[local-name()='SampleSize']/*[local-name()='SizeUnit'] !=''">
+				<xsl:value-of select="./*:Method/*:Participants/*:SampleSize/*:Size"/>
+				<xsl:if test="./*:Method/*:Participants/*:SampleSize/*:SizeUnit !=''">
 				  <xsl:text> </xsl:text>
-				  <xsl:value-of select="./*[local-name()='Method']/*[local-name()='Participants']/*[local-name()='SampleSize']/*[local-name()='SizeUnit']"/>
+				  <xsl:value-of select="./*:Method/*:Participants/*:SampleSize/*:SizeUnit"/>
 				</xsl:if>
 			      </td>
 			    </tr>
@@ -815,9 +830,9 @@
 			      <td><b>Sex distribution:</b></td>
 			      <td>
 				<ul>
-				  <xsl:for-each select="./*[local-name()='Method']/*[local-name()='Participants']/*[local-name()='SexDistribution']/*[local-name()='SexDistributionInfo']">
+				  <xsl:for-each select="./*:Method/*:Participants/*:SexDistribution/*:SexDistributionInfo">
 				    <li>
-				      <xsl:value-of select="./*[local-name()='ParticipantSex']"/>:<xsl:value-of select="./*[local-name()='Size']"/>
+				      <xsl:value-of select="./*:ParticipantSex"/>:<xsl:value-of select="./*:Size"/>
 				    </li>
 				  </xsl:for-each>
 				</ul>
@@ -826,13 +841,13 @@
 			    <tr>
 			      <td><b>Age distribution:</b></td>
 			      <td>
-				<xsl:value-of select="./*[local-name()='Method']/*[local-name()='Participants']//*[local-name()='ParticipantMeanAge']"/>
+				<xsl:value-of select="./*:Method/*:Participants//*:ParticipantMeanAge"/>
 			      </td>
 			    </tr>
 			    <tr>
 			      <td><b>Language variety:</b></td>
 			      <td>
-				<xsl:value-of select="./*[local-name()='Method']/*[local-name()='Participants']//*[local-name()='VarietyName']"/>:<xsl:value-of select="./*[local-name()='Method']/*[local-name()='Participants']//*[local-name()='NoParticipants']"/>			  
+				<xsl:value-of select="./*:Method/*:Participants//*:VarietyName"/>:<xsl:value-of select="./*:Method/*:Participants//*:NoParticipants"/>			  
 			      </td>
 			    </tr>		      
 			  </table>
@@ -844,24 +859,24 @@
 		<tr>		
 		  <td><b>Results:</b></td>
 		  <td>
-		    <xsl:value-of select="./*[local-name()='Results']/*[local-name()='Descriptions']/*[local-name()='Description']"/>
+		    <xsl:value-of select="./*:Results/*:Descriptions/*:Description"/>
 		  </td>
 		</tr>
 		<tr>		
 		  <td><b>Analysis Tool Info:</b></td>
 		  <td>
-		    <xsl:value-of select="./*[local-name()='AnalysisToolInfo']/*[local-name()='AnalysisTool']"/>
-		    <xsl:if test="./*[local-name()='AnalysisToolInfo']/*[local-name()='ToolType'] !=''">
-		      (<xsl:value-of select="./*[local-name()='AnalysisToolInfo']/*[local-name()='ToolType']"/>)
+		    <xsl:value-of select="./*:AnalysisToolInfo/*:AnalysisTool"/>
+		    <xsl:if test="./*:AnalysisToolInfo/*:ToolType !=''">
+		      (<xsl:value-of select="./*:AnalysisToolInfo/*:ToolType"/>)
 		    </xsl:if>
-		    <xsl:if test="./*[local-name()='AnalysisToolInfo']/*[local-name()='Version'] !=''">
-		      , Version: <xsl:value-of select="./*[local-name()='AnalysisToolInfo']/*[local-name()='Version']"/>.
+		    <xsl:if test="./*:AnalysisToolInfo/*:Version !=''">
+		      , Version: <xsl:value-of select="./*:AnalysisToolInfo/*:Version"/>.
 		    </xsl:if>				    
 		  </td>
 		</tr>		
 		<tr>
 		  <td><b>Type-specific Size info: </b></td>
-		  <td><xsl:value-of select="./*[local-name()='TypeSpecificSizeInfo']/*[local-name()='TypeSpecificSize']/*[local-name()='Size']"/></td>
+		  <td><xsl:value-of select="./*:TypeSpecificSizeInfo/*:TypeSpecificSize/*:Size"/></td>
 		</tr>	    	    		
 		<hr></hr>
 	      </xsl:for-each>
@@ -871,7 +886,7 @@
       </div>            	      
     </xsl:template>
     
-    <xsl:template match="*[local-name()='ToolContext']">
+    <xsl:template match="*:ToolContext">
       <div id="tabs-7">
 	<p>
 	  <table>
@@ -883,53 +898,53 @@
 	    </thead>
 	    <tr>
               <td><b>Tool Classification: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ToolClassification']/*[local-name()='ToolType']"/></td>	      	      
+              <td><xsl:value-of select="./*:ToolClassification/*:ToolType"/></td>	      	      
 	    </tr>
 	    <tr>
               <td><b>Distribution: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Distribution']/*[local-name()='DistributionType']"/></td>	      	      	      
+              <td><xsl:value-of select="./*:Distribution/*:DistributionType"/></td>	      	      	      
 	    </tr>
 	    <tr>
 	      <td><b>Size: </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='TotalSize']/*[local-name()='Size']"/>
-		<xsl:value-of select="./*[local-name()='TotalSize']/*[local-name()='SizeUnit']"/>		
+		<xsl:value-of select="./*:TotalSize/*:Size"/>
+		<xsl:value-of select="./*:TotalSize/*:SizeUnit"/>		
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
 	      <td><b>Input(s): </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Inputs']//*[local-name()='Description']"/>
+		<xsl:value-of select="./*:Inputs//*:Description"/>
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
 	      <td><b>Output(s): </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Outputs']//*[local-name()='Description']"/>
+		<xsl:value-of select="./*:Outputs//*:Description"/>
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
 	      <td><b>Implementatation(s): </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Implementations']//*[local-name()='ImplementationLanguage']"/>
+		<xsl:value-of select="./*:Implementations//*:ImplementationLanguage"/>
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
 	      <td><b>Install Environment(s): </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='InstallEnv']//*[local-name()='OperatingSystem']"/>
+		<xsl:value-of select="./*:InstallEnv//*:OperatingSystem"/>
 	      </td>	      	      	      
 	    </tr>
 	    <tr>
 	      <td><b>Prerequisite(s): </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Prerequisites']//*[local-name()='PrerequisiteName']"/>
+		<xsl:value-of select="./*:Prerequisites//*:PrerequisiteName"/>
 	      </td>	      	      	      
 	    </tr>	    
 	    <tr>
 	      <td><b>Tech Environment(s): </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='TechEnv']//*[local-name()='ApplicationType']"/>
+		<xsl:value-of select="./*:TechEnv//*:ApplicationType"/>
 	      </td>	      	      	      
 	    </tr> 	    	    	    	    	    	    
 	  </table>
@@ -937,7 +952,7 @@
       </div>                  
     </xsl:template>
 
-    <xsl:template match="*[local-name()='SpeechCorpusContext']">
+    <xsl:template match="*:SpeechCorpusContext">
       <div id="tabs-7">
 	<p>
 	  <table>
@@ -949,11 +964,11 @@
 	    </thead>
 	    <tr>
               <td><b>Modalities: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Modalities']"/></td>	      	      
+              <td><xsl:value-of select="./*:Modalities"/></td>	      	      
 	    </tr>
 	    <tr>
               <td><b>Mediatype: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Mediatype']"/></td>	      	      
+              <td><xsl:value-of select="./*:Mediatype"/></td>	      	      
 	    </tr>
 	    <tr>
               <td><b>Speech Corpus: </b></td>
@@ -961,50 +976,50 @@
 		<table  border="3" cellpadding="10" cellspacing="10">
 		  <tr>
 		    <td><b>Duration (effective speech):</b></td>
-		    <td><xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='DurationOfEffectiveSpeech']"/></td>
+		    <td><xsl:value-of select="./*:SpeechCorpus/*:DurationOfEffectiveSpeech"/></td>
 		  </tr>
 		  <tr>
 		    <td><b>Duration (full database):</b></td>
-		    <td><xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='DurationOfFullDatabase']"/></td>
+		    <td><xsl:value-of select="./*:SpeechCorpus/*:DurationOfFullDatabase"/></td>
 		  </tr>
 		  <tr>
 		    <td><b>Number of speakers:</b></td>
-		    <td><xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='NumberOfSpeakers']"/></td>
+		    <td><xsl:value-of select="./*:SpeechCorpus/*:NumberOfSpeakers"/></td>
 		  </tr>
 		  <tr>
 		    <td><b>Recording Environment:</b></td>
 		    <td>
-		      <xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='RecordingEnvironment']"/>			  
+		      <xsl:value-of select="./*:SpeechCorpus/*:RecordingEnvironment"/>			  
 		    </td>
 		  </tr>
 		  <tr>
 		    <td><b>Speaker demographics:</b></td>
 		    <td>
-		      <xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='SpeakerDemographics']"/>
+		      <xsl:value-of select="./*:SpeechCorpus/*:SpeakerDemographics"/>
 		    </td>
 		  </tr>
 		  <tr>
 		    <td><b>Quality:</b></td>
 		    <td>
-		      <xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='Quality']"/>			  
+		      <xsl:value-of select="./*:SpeechCorpus/*:Quality"/>			  
 		    </td>
 		  </tr>
 		  <tr>		    
 		    <td><b>Recording Platform (hardware):</b></td>
 		    <td>
-		      <xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='RecordingPlatformHardware']"/>			  
+		      <xsl:value-of select="./*:SpeechCorpus/*:RecordingPlatformHardware"/>			  
 		    </td>		    
 		  </tr>
 		  <tr>		    
 		    <td><b>Recording Platform (software):</b></td>
 		    <td>
-		      <xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='RecordingPlatformSoftware']"/>			  
+		      <xsl:value-of select="./*:SpeechCorpus/*:RecordingPlatformSoftware"/>			  
 		    </td>		    
 		  </tr>
 		  <tr>		    
 		    <td><b>Speech-technical metadata:</b></td>
 		    <td>
-		      <xsl:value-of select="./*[local-name()='SpeechCorpus']/*[local-name()='SpeechTechnicalMetadata']"/>			  
+		      <xsl:value-of select="./*:SpeechCorpus/*:SpeechTechnicalMetadata"/>			  
 		    </td>		    
 		  </tr>		      		  
 		</table>
@@ -1012,26 +1027,26 @@
 	    </tr>
 	    <tr>
               <td><b>Multilinguality: </b></td>
-              <td><xsl:value-of select="./*[local-name()='Multilinguality']/*[local-name()='Multilinguality']"/></td>
+              <td><xsl:value-of select="./*:Multilinguality/*:Multilinguality"/></td>
 	    </tr>
 	    <tr>
               <td><b>Annotation Type(s): </b></td>
-              <td><xsl:value-of select=".//*[local-name()='AnnotationType']"/></td>
+              <td><xsl:value-of select=".//*:AnnotationType"/></td>
 	    </tr>
 	    <tr>
               <td><b>Subject Language(s): </b></td>
-              <td><xsl:value-of select=".//*[local-name()='LanguageName']"/></td>
+              <td><xsl:value-of select=".//*:LanguageName"/></td>
 	    </tr>
 	    <tr>
               <td><b>Type-specific Size info: </b></td>
-              <td><xsl:value-of select="./*[local-name()='TypeSpecificSizeInfo']//*[local-name()='Size']"/></td>	      	      
+              <td><xsl:value-of select="./*:TypeSpecificSizeInfo//*:Size"/></td>	      	      
 	    </tr>	    	    
 	  </table>
 	</p>
       </div>                  	    
     </xsl:template>
 
-    <xsl:template match="*[local-name()='TextCorpusContext']">
+    <xsl:template match="*:TextCorpusContext">
       <div id="tabs-7">
 	<p>
 	  <table>
@@ -1043,27 +1058,27 @@
 	    </thead>
 	    <tr>
               <td><b>Corpus Type: </b></td>
-              <td><xsl:value-of select="./*[local-name()='CorpusType']"/></td>	      	      
+              <td><xsl:value-of select="./*:CorpusType"/></td>	      	      
 	    </tr>
 	    <tr>
               <td><b>Temporal Classification: </b></td>
-              <td><xsl:value-of select="./*[local-name()='TemporalClassification']"/></td>	      	      
+              <td><xsl:value-of select="./*:TemporalClassification"/></td>	      	      
 	    </tr>	    
 	    <tr>
               <td><b>Description(s): </b></td>
-              <td><xsl:value-of select=".//*[local-name()='Description']"/></td>	      	      
+              <td><xsl:value-of select=".//*:Description"/></td>	      	      
 	    </tr>	    
 	    <tr>
               <td><b>Validation: </b></td>
-              <td><xsl:value-of select="./*[local-name()='ValidationGrp']//*[local-name()='Description']"/></td>      	      
+              <td><xsl:value-of select="./*:ValidationGrp//*:Description"/></td>      	      
 	    </tr>
 	    <tr>
               <td><b>Subject Language(s): </b></td>
-              <td><xsl:value-of select="./*[local-name()='SubjectLanguages']//*[local-name()='LanguageName']"/></td>	      	      
+              <td><xsl:value-of select="./*:SubjectLanguages//*:LanguageName"/></td>	      	      
 	    </tr>
 	    <tr>
               <td><b>Type-specific Size Info: </b></td>
-              <td><xsl:value-of select="./*[local-name()='TypeSpecificSizeInfo']//*[local-name()='Size']"/></td>	      	      
+              <td><xsl:value-of select="./*:TypeSpecificSizeInfo//*:Size"/></td>	      	      
 	    </tr>	    	    
 	  </table>
 	</p>
