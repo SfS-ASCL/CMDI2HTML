@@ -22,7 +22,7 @@
     
     <!-- <xsl:strip-space elements="cmd:Description"/> -->
     <xsl:strip-space elements="*"/>
-  
+  AP 9 Dissemination: 
     
     <!-- ToolProfile:            clarin.eu:cr1:p_1447674760338 
 		 TextCorpusProfile:      clarin.eu:cr1:p_1442920133046
@@ -108,13 +108,13 @@
 	      <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/> </title>	      
 	      
 	      <link rel="stylesheet"
-		    href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+		    href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 	      
-	      <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	      <script src="//code.jquery.com/jquery-3.1.1.min.js"
 		      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 		      crossorigin="anonymous"></script>
 	      
-	      <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+	      <script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
 		      integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
 		      crossorigin="anonymous"></script>
   </head>
