@@ -22,7 +22,7 @@
     
     <!-- <xsl:strip-space elements="cmd:Description"/> -->
     <xsl:strip-space elements="*"/>
-  AP 9 Dissemination: 
+
     
     <!-- ToolProfile:            clarin.eu:cr1:p_1447674760338 
 		 TextCorpusProfile:      clarin.eu:cr1:p_1442920133046
