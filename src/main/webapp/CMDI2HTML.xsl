@@ -22,22 +22,22 @@
     
     <!-- <xsl:strip-space elements="cmd:Description"/> -->
     <xsl:strip-space elements="*"/>
-
     
-    <!-- ToolProfile:            clarin.eu:cr1:p_1447674760338 
+    <!--         ToolProfile:            clarin.eu:cr1:p_1447674760338 
 		 TextCorpusProfile:      clarin.eu:cr1:p_1442920133046
 		 LexicalResourceProfile: clarin.eu:cr1:p_1445542587893
 		 ExperimentProfile:      clarin.eu:cr1:p_1447674760337
     -->
     
     <!-- This need to be OR'ed for all valid NaLiDa-based profiles -->
-    <xsl:template match="/cmd:CMD/cmd:Components">
+    <xsl:template match="/cmd:CMD">
         <xsl:choose>
             <xsl:when test="contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760338')
                 or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1442920133046')
                 or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1445542587893')
 		or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1485173990943')
-                or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337')">
+                or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337') 
+                or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1505397653792')">
                 <!-- CMDI 1.1 -->
                 <xsl:call-template name="mainProcessing"></xsl:call-template>	
             </xsl:when>
@@ -51,37 +51,31 @@
 		  - TextCorpusProfile ('clarin.eu:cr1:p_1442920133046),
 		  - LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), 
 		  - SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and
-		  - ExperimentProfile (clarin.eu:cr1:p_1447674760337).
+		  - ExperimentProfile (clarin.eu:cr1:p_1447674760337)
+		  - CourseProfile (clarin.eu:cr1:p_1505397653792).
 		</xsl:text>
                 </error>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
-
     <xsl:template match="/cmde:CMD/cmde:Header">
     <!-- ignore header --> 
     </xsl:template>
 
+    
     <xsl:template match="/cmd:CMD/cmd:Header">
     <!-- ignore header --> 
     </xsl:template>
-    
-    <xsl:template match="/cmde:CMD/cmde:Resources">
-    <!-- ignore resources -->
-    </xsl:template>
 
-    <xsl:template match="/cmd:CMD/cmd:Resources">
-    <!-- ignore resources -->
-    </xsl:template>
-
-    <xsl:template match="/cmde:CMD/cmde:Components">
+    <xsl:template match="/cmde:CMD">
         <xsl:choose>
             <xsl:when test="contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760338')
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1442920133046')
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1445542587893')
 		or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1485173990943')		
-                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337')">
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1505397653792')">
                 <!-- CMDI 1.2 -->
                 <xsl:call-template name="mainProcessing"></xsl:call-template>
             </xsl:when>
@@ -95,60 +89,60 @@
 		- TextCorpusProfile ('clarin.eu:cr1:p_1442920133046),
 		- LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), 
  		- SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and		
-		- ExperimentProfile (clarin.eu:cr1:p_1447674760337).</xsl:text>
+		- ExperimentProfile (clarin.eu:cr1:p_1447674760337)
+		- CourseProfile (clarin.eu:cr1:p_1505397653792)..</xsl:text>
                 </error>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     
     <xsl:template name="mainProcessing">
-
       <html>
-            <head>
-	      <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/> </title>	      
-	      
-	      <link rel="stylesheet"
-		    href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-	      
-	      <script src="//code.jquery.com/jquery-3.1.1.min.js"
-		      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-		      crossorigin="anonymous"></script>
-	      
-	      <script src="//code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-		      integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-		      crossorigin="anonymous"></script>
-  </head>
-          
-
-  <body>
-    <script>
-    	$(function() {
-    		$( "#tabs" ).tabs({
-                   	event: "mouseover"
-    			//event: "click"
-    		});
-    	});
-    </script>
-
-    <h1>Resource: <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></h1>
-
-    <div id="tabs">
-      <ul>
-	<li><a href="#tabs-1">General Info</a></li>
-	<li><a href="#tabs-2">Project</a></li>
-	<li><a href="#tabs-3">Publications</a></li>
-	<li><a href="#tabs-4">Creation</a></li>
-	<li><a href="#tabs-5">Documentations</a></li>
-	<li><a href="#tabs-6">Access</a></li>
-	<li><a href="#tabs-7">Resource-specific information</a></li>
-	<li><a href="#tabs-8">About...</a></li>
-      </ul>
+        <head>
+	  <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/> </title>	      
+	  
+	  <link rel="stylesheet"
+		href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+	  
+	  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+		  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+		  crossorigin="anonymous"></script>
+	  
+	  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+		  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+		  crossorigin="anonymous"></script>
+	</head>
+        
 	
-      <xsl:apply-templates></xsl:apply-templates>
-    </div>
-  </body>
-</html>
-    
+	<body>
+	  <script>
+    	    $(function() {
+    	    $( "#tabs" ).tabs({
+            event: "mouseover"
+    	    //event: "click"
+    	    });
+    	    });
+	  </script>
+
+	  <h1>Resource: <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></h1>
+	  
+	  <div id="tabs">
+	    <ul>
+	      <li><a href="#tabs-1">General Info</a></li>
+	      <xsl:if test="//*[local-name() = 'Project']"><li><a href="#tabs-2">Project</a></li></xsl:if>
+	      <xsl:if test="//*[local-name() = 'Publications']"><li><a href="#tabs-3">Publications</a></li></xsl:if>
+	      <xsl:if test="//*[local-name() = 'Creation']"><li><a href="#tabs-4">Creation</a></li></xsl:if>
+	      <xsl:if test="//*[local-name() = 'Documentations']"><li><a href="#tabs-5">Documentation</a></li></xsl:if>
+	      <xsl:if test="//*[local-name() = 'Access']"><li><a href="#tabs-6">Access</a></li></xsl:if>
+	      <li><a href="#tabs-7">Resource-specific information</a></li>
+	      <li><a href="#tabs-8">Data files</a></li>    
+	      <li><a href="#tabs-9">About...</a></li>
+	    </ul>
+	    
+	    <xsl:apply-templates></xsl:apply-templates>
+	  </div>
+	</body>
+      </html>
     </xsl:template>
     
     <xsl:template match="*[local-name()='GeneralInfo']">
@@ -407,8 +401,16 @@
 		      <td><xsl:value-of select="./*[local-name()='Descriptions']/*[local-name()='Description']"/></td>
 		    </tr>
 		    <tr>
-		      <td><b>PID:</b></td>
-		      <tt><xsl:value-of select="./*[local-name()='resolvablePID']"/></tt>
+		      <td><b>Link:</b></td>
+		      <td>
+			<xsl:element name="a">
+			  <xsl:attribute name="href">
+			    <xsl:value-of select="./*[local-name()='resolvablePID']"/>			  
+			    <xsl:value-of select=".//*[local-name()='AuthoritativeID'][1]/*[local-name()='id']"/>
+			  </xsl:attribute>
+			  <xsl:value-of select="./*[local-name()='resolvablePID']"/>			
+			</xsl:element>			
+		      </td>
 		    </tr>		      		      
 		  </table>
 		</td>
@@ -474,15 +476,235 @@
 		</td>
 	      </tr>
 	    </xsl:for-each>
+	    <xsl:if test="//*[local-name()='AnnotationMode']">
 	    <tr>
 	      <td><b>Annotation:</b></td>
-	      <td><tt>not yet converted</tt></td>
+	      <td>
+		<table  border="3" cellpadding="10" cellspacing="10">
+		  <tr>
+		    <td><b>Annotation Mode:</b></td>
+		    <td><xsl:value-of select=".//*[local-name()='AnnotationMode']"/></td>
+		  </tr>
+		  <tr>
+		    <td><b>Annotation Standoff:</b></td>
+		    <td><xsl:value-of select=".//*[local-name()='AnnotationStandoff']"/></td>
+		  </tr>
+		  <tr>
+		    <td><b>Interannotator Agreement:</b></td>
+		    <td><xsl:value-of select=".//*[local-name()='InterannotatorAgreement']"/></td>
+		  </tr>
+		  <tr>
+		    <td><b>Annotation Format:</b></td>
+		    <td><xsl:value-of select=".//*[local-name()='AnnotationFormat']"/></td>
+		  </tr>
+		  <tr>
+		    <td><b>Segmentation Units:</b></td>
+		    <td><xsl:value-of select=".//*[local-name()='SegmentationUnits']"/></td>
+		  </tr>
+		  <xsl:for-each select=".//*[local-name()='AnnotationType']">
+		    <tr>
+		      <td><b>Annotation Type:</b></td>
+		      <td>
+			<table>
+			  <tr>
+			    <td><b>Annotation Level Type(s): </b></td>
+			    <td>
+		     	      <xsl:for-each select="./*[local-name()='AnnotationLevelType']">
+				<xsl:value-of select="."/>
+				<xsl:if test="position()!=last()">, </xsl:if>
+			      </xsl:for-each>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td><b>Annotation Mode(s): </b></td>
+			    <td>
+			      <xsl:for-each select="./*[local-name()='AnnotationMode']">
+				<xsl:value-of select="."/>
+				<xsl:if test="position()!=last()">, </xsl:if>
+			      </xsl:for-each>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td><b>Tagset(s): </b></td>
+			    <td>
+			      <xsl:for-each select="./*[local-name()='TagsetInfo']">
+				<xsl:value-of select="./*[local-name()='Tagset']"/>
+				<xsl:if test="position()!=last()">, </xsl:if>
+			      </xsl:for-each>
+			    </td>
+			  </tr>
+			
+			  <tr>
+			    <td><b>Descriptions(s): </b></td>
+			    <td><xsl:value-of select=".//*[local-name()='Description']"/></td>			    
+			  </tr>
+			</table>
+		      </td>			
+		    </tr>
+		  </xsl:for-each>
+		  <xsl:for-each select=".//*[local-name()='AnnotationToolInfo']">		  
+		    <tr>
+		      <td><b>Annotation Tool Info:</b></td>
+		      <td>
+			<table>
+			  <tr>
+			    <td><b>Annotation Tool(s): </b></td>
+			    <td>
+			      <xsl:for-each select="./*[local-name()='AnnotationTool']">
+				<xsl:value-of select="."/>
+				<xsl:if test="position()!=last()">, </xsl:if>
+			      </xsl:for-each>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td><b>Tool Type(s): </b></td>
+			    <td>
+			      <xsl:for-each select="./*[local-name()='ToolType']">
+				<xsl:value-of select="."/>
+				<xsl:if test="position()!=last()">, </xsl:if>
+			      </xsl:for-each>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td><b>Versions(s): </b></td>
+			    <td>
+			      <xsl:for-each select="./*[local-name()='Version']">
+				<xsl:value-of select="."/>
+				<xsl:if test="position()!=last()">, </xsl:if>
+			      </xsl:for-each>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td><b>Url(s): </b></td>
+			    <td>
+			      <xsl:for-each select="./*[local-name()='Url']">
+				<xsl:value-of select="."/>
+				<xsl:if test="position()!=last()">, </xsl:if>
+			      </xsl:for-each>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td><b>Description(s):</b></td>
+			    <td><xsl:value-of select=".//*[local-name()='Description']"/></td>
+			  </tr>		  			  
+			</table>
+		      </td>
+		    </tr>
+		  </xsl:for-each>
+		  <tr>
+		    <td><b>Annotation Descriptions:</b></td>
+		    <td><xsl:value-of select=".//*[local-name()='Description']"/></td>
+		  </tr>		  
+		</table>
+	      </td>
 	    </tr>
-	    <tr>
-	      <td><b>Source:</b></td>
-	      <td><tt>not yet converted</tt></td>
-	    </tr>	    	    	    
-	    
+	    </xsl:if>
+	    <xsl:for-each select="./*[local-name()='Source']">
+	      <tr>
+		<td><b>Source:</b></td>
+		<td>
+		  <table  border="3" cellpadding="10" cellspacing="10">
+		    <tr>
+		      <td><b>Original Source</b></td>
+		      <td>
+			<xsl:value-of select="./*[local-name()='OriginalSource']"/>
+			<xsl:if test="./*[local-name()='SourceType'] != ''">
+			  <xsl:text> (</xsl:text>
+			  <xsl:value-of select="./*[local-name()='SourceType']"/>
+			  <xsl:text>)</xsl:text>		  
+			</xsl:if>
+		      </td>
+		    </tr>
+		    <tr>
+		      <xsl:for-each select="./*[local-name()='MediaFiles']">
+			<tr>
+			  <td><b>Catalogue Link:</b></td>		  
+			  <td><xsl:value-of select="./*[local-name()='CatalogueLink']"/></td>
+			</tr>
+			<tr>
+			  <td><b>Type:</b></td>		  
+			  <td><xsl:value-of select="./*[local-name()='Type']"/></td>
+			</tr>
+			<tr>
+			  <td><b>Format:</b></td>		  
+			  <td><xsl:value-of select="./*[local-name()='Format']"/></td>
+			</tr>
+			<tr>
+			  <td><b>Size:</b></td>		  
+			  <td><xsl:value-of select="./*[local-name()='Size']"/></td>
+			</tr>
+			<tr>
+			  <td><b>Quality:</b></td>		  
+			  <td><xsl:value-of select="./*[local-name()='Quality']"/></td>
+			</tr>
+			<tr>
+			  <td><b>Description:</b></td>		  
+			  <td><xsl:value-of select="./*[local-name()='Description']"/></td>
+			</tr>
+		      </xsl:for-each>		
+		    </tr>
+		  </table>
+		</td>
+	      </tr>
+	      <tr>
+		<td><b>Derivation:</b></td>
+		<td>
+		  <table border="3" cellpadding="10" cellspacing="10">
+		    <tr>
+		      <td><b>Organisation(s)</b></td>
+		      <td>		    
+			<xsl:for-each select=".//*[local-name()='Organisation']">
+			  <xsl:value-of select="."/>
+			  <xsl:if test="position()!=last()">, </xsl:if>
+			</xsl:for-each>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td><b>Derivation Date</b></td>
+		      <td>		    
+			<xsl:value-of select=".//*[local-name()='DerivationDate']"/>
+		      </td>
+		    </tr>		    
+		    <tr>
+		      <td><b>Derivation Mode(s)</b></td>
+		      <td>		    
+			<xsl:for-each select=".//*[local-name()='DerivationMode']">
+			  <xsl:value-of select="."/>
+			  <xsl:if test="position()!=last()">, </xsl:if>
+			</xsl:for-each>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td><b>Derivation Type(s)</b></td>
+		      <td>		    
+			<xsl:for-each select=".//*[local-name()='DerivationType']">
+			  <xsl:value-of select="."/>
+			  <xsl:if test="position()!=last()">, </xsl:if>
+			</xsl:for-each>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td><b>Derivation Workflow(s)</b></td>
+		      <td>		    
+			<xsl:for-each select=".//*[local-name()='DerivationWorkflow']">
+			  <xsl:value-of select="."/>
+			  <xsl:if test="position()!=last()">, </xsl:if>
+			</xsl:for-each>
+		      </td>
+		    </tr>
+		    <tr>
+		      <td><b>Derivation Tool Info</b></td>
+		      <td>		    
+			<xsl:for-each select=".//*[local-name()='DerivationToolInfo']">
+			  <xsl:value-of select="."/>
+			  <xsl:if test="position()!=last()">, </xsl:if>
+			</xsl:for-each>
+		      </td>
+		    </tr>
+		  </table>
+		</td>
+	      </tr>
+	    </xsl:for-each>
 	  </table>
 	</p>
       </div>            
@@ -623,9 +845,15 @@
     
     
     <xsl:template match="*[local-name()='ResourceProxyListInfo']">
-      <!-- ignore content, generate About instead, still to do! -->
-      <div id="tabs-8">
+      <!-- ignore content, generate About instead, still to do, especially enhancing! -->
+    
+      <div id="tabs-9">
 	<p>
+	  This digital object contains:
+	  <table>
+	    <tr><th>Original File Name</th><th>Size</th><th>Checksums</th></tr>
+	    <xsl:apply-templates select="*[local-name()='ResourceProxyInfo']"/>
+	  </table>
 	  <table>
 	    <thead>
               <tr>
@@ -635,7 +863,7 @@
 	    </thead>
 	    <tr>
               <td><b>Generation: </b></td>
-              <td>Automatically generated with an XSL stylesheet from the CMDI file, v.01</td>
+              <td>Automatically generated with an XSL stylesheet from the CMDI file, v.02</td>
 	    </tr>
 	    <tr>
               <td><b>Contact: </b></td>
@@ -646,6 +874,85 @@
       </div>                  
       
     </xsl:template>
+  <xsl:template match="//*[local-name()='ResourceProxyInfo']">
+  <tr>
+    <td><xsl:value-of select="*[local-name()='ResProxFileName']"/></td>
+    <td><xsl:for-each select="*[local-name()='SizeInfo']/*[local-name()='TotalSize']">
+      <xsl:value-of select="*[local-name()='Size']"/><xsl:value-of select="*[local-name()='SizeUnit']"/>
+    </xsl:for-each>
+    </td>
+    <td>
+      <ul>
+      <li><xsl:value-of select="*[local-name()='Checksums']/*[local-name()='md5']"/> (MD5)</li>
+      <li><xsl:value-of select="*[local-name()='Checksums']/*[local-name()='sha1']"/> (SHA1)</li>  
+    </ul>
+    </td>
+    
+  </tr>
+  </xsl:template>
+
+    <xsl:template match="//*[local-name()='ResourceProxyList']">
+      <div id="tabs-8">
+	<p>
+	  <table>
+	    <thead>
+              <tr>
+		<th><h3>Data Files</h3></th>
+                <th></th>
+              </tr>
+	    </thead>
+	    <tr>
+              <td><b>Persistent Identifier (PID) of this digital object: </b></td>
+              <td>
+		<xsl:element name="a">
+		  <xsl:attribute name="href">		
+		    <xsl:value-of select="//*[local-name()='MdSelfLink']"/>
+		  </xsl:attribute>
+		  <xsl:value-of select="//*[local-name()='MdSelfLink']"/>
+		</xsl:element>
+	      </td>	      	      
+	    </tr>
+	    <tr>
+              <td><b>Complete set of this data (as zip file): </b></td>
+              <td>
+		<xsl:for-each select="./*">
+		  <xsl:if test="./*[local-name()='ResourceType'] = 'LandingPage'">
+		    <xsl:element name="a">
+		      <xsl:attribute name="href">				    
+			<xsl:value-of select="./*[local-name()='ResourceRef']"/>
+		      </xsl:attribute>
+		      <xsl:value-of select="./*[local-name()='ResourceRef']"/>
+		    </xsl:element>
+		  </xsl:if>
+		</xsl:for-each>
+	      </td>	      	      
+	    </tr>
+	  </table>
+	</p>
+
+	This data set contains the following data streams:
+	<ul>
+	  <xsl:for-each select="./*">
+	    <xsl:choose>
+	      <xsl:when test="./*[local-name()='ResourceType'] = 'Resource'">	    
+		<li>
+		  <xsl:element name="a">
+		    <xsl:attribute name="href">
+		      <xsl:value-of select="./*[local-name()='ResourceRef']"/>
+		    </xsl:attribute>
+		    <xsl:value-of select="./*[local-name()='ResourceRef']"/>
+		  </xsl:element>
+		   <xsl:if test="./*[local-name()='ResourceType']/@*[local-name()='mimetype']">
+		     <xsl:text> </xsl:text>
+		     (<xsl:value-of select="./*[local-name()='ResourceType']/@*[local-name()='mimetype']"/>)
+		   </xsl:if>
+		</li>
+	      </xsl:when>
+	    </xsl:choose>	      
+	  </xsl:for-each>
+	</ul>
+      </div>                  
+    </xsl:template>  
     
     <!-- Resource type specific templates -->
     
@@ -1069,6 +1376,34 @@
 	</p>
       </div>                  	          
     </xsl:template>
+  <xsl:template match="*[local-name()='CourseProfileSpecific']">
+    <div id="tabs-7">
+      <p>
+        <table>
+          <thead>
+            <tr>
+              <th><h3>Course information</h3></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tr>
+            <td><b>Course Targeted at: </b></td>
+            <td><ul><xsl:apply-templates select="*[local-name()='CourseTargetedAt']"></xsl:apply-templates></ul></td>	      	      
+          </tr>
+          <tr>
+            <td><b>First held: </b></td>
+            <td><xsl:value-of select="./*[local-name()='FirstHeldAt']"/><xsl:value-of select="./*[local-name()='FirstHeldOn']"/></td>	      	      
+          </tr>	    
+            
+        </table>
+      </p>
+    </div>             
+    
+  </xsl:template>
+  <xsl:template match="*[local-name()='CourseTargetedAt']">
+    <li><xsl:value-of select="."/></li>
+      
+  </xsl:template>
     
 </xsl:stylesheet>
         
