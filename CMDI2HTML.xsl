@@ -53,6 +53,19 @@
 		  - SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and
 		  - ExperimentProfile (clarin.eu:cr1:p_1447674760337)
 		  - CourseProfile (clarin.eu:cr1:p_1505397653792).
+		  
+		  Additional we suppor the following profiles, which are utilized by the CLARIN-D-Centre in Tübingen
+		  - OLAC-DcmiTerms: clarin.eu:cr1:p_1288172614026
+		  - DcmiTerms: clarin.eu:cr1:p_1288172614023
+		  
+		  Older version of the profiles are partly supported, currently only if used  in CMDI 1.2 files: 
+		  - ExperimentProfile: clarin.eu:cr1:p_1302702320451
+		  - LexicalResourceProfile: clarin.eu:cr1:p_1290431694579
+		  - TextCorpusProfile: clarin.eu:cr1:p_1290431694580
+		  - ToolProfile: clarin.eu:cr1:p_1290431694581
+		  - WebLichtWebService: clarin.eu:cr1:p_1320657629644
+		  - Resource Bundle: clarin.eu:cr1:p_1320657629649
+	  
 		</xsl:text>
                 </error>
             </xsl:otherwise>
@@ -75,7 +88,17 @@
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1445542587893')
 		or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1485173990943')		
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337')
-                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1505397653792')">
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1505397653792')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1288172614026')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1288172614023')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1302702320451')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1290431694579')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1290431694580')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1320657629644')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1320657629649')
+  
+                
+                ">
                 <!-- CMDI 1.2 -->
                 <xsl:call-template name="mainProcessing"></xsl:call-template>
             </xsl:when>
@@ -90,7 +113,21 @@
 		- LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), 
  		- SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and		
 		- ExperimentProfile (clarin.eu:cr1:p_1447674760337)
-		- CourseProfile (clarin.eu:cr1:p_1505397653792)..</xsl:text>
+		- CourseProfile (clarin.eu:cr1:p_1505397653792).
+		
+    Additional we suppor the following profiles, which are utilized by the CLARIN-D-Centre in Tübingen
+		  - OLAC-DcmiTerms: clarin.eu:cr1:p_1288172614026
+		  - DcmiTerms: clarin.eu:cr1:p_1288172614023
+		  
+		  Older version of the profiles are partly supported, currently only if used  in CMDI 1.2 files: 
+		  - ExperimentProfile: clarin.eu:cr1:p_1302702320451
+		  - LexicalResourceProfile: clarin.eu:cr1:p_1290431694579
+		  - TextCorpusProfile: clarin.eu:cr1:p_1290431694580
+		  - ToolProfile: clarin.eu:cr1:p_1290431694581
+		  - WebLichtWebService: clarin.eu:cr1:p_1320657629644
+		  - Resource Bundle: clarin.eu:cr1:p_1320657629649
+                    
+                    </xsl:text>
                 </error>
             </xsl:otherwise>
         </xsl:choose>
@@ -134,6 +171,7 @@
 	      <xsl:if test="//*[local-name() = 'Creation']"><li><a href="#tabs-4">Creation</a></li></xsl:if>
 	      <xsl:if test="//*[local-name() = 'Documentations']"><li><a href="#tabs-5">Documentation</a></li></xsl:if>
 	      <xsl:if test="//*[local-name() = 'Access']"><li><a href="#tabs-6">Access</a></li></xsl:if>
+<!--      <xsl:if test="not(contains(//*:Components/*/local-name(), 'DcmiTerms'))"><li><a href="#tabs-7">Resource-specific information</a></li></xsl:if> -->
 	      <li><a href="#tabs-7">Resource-specific information</a></li>
 	      <li><a href="#tabs-8">Data files</a></li>    
 	      <li><a href="#tabs-9">About...</a></li>
