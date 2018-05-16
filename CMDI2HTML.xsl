@@ -27,6 +27,15 @@
 		 TextCorpusProfile:      clarin.eu:cr1:p_1442920133046
 		 LexicalResourceProfile: clarin.eu:cr1:p_1445542587893
 		 ExperimentProfile:      clarin.eu:cr1:p_1447674760337
+		 
+
+new ExperimentProfile: clarin.eu:cr1:p_1524652309872 
+new TextCorpusProfile: clarin.eu:cr1:p_1524652309874
+new ToolProfile: clarin.eu:cr1:p_1524652309875
+new LexicalResourceProfile: clarin.eu:cr1:p_1524652309876
+new CourseProfile: clarin.eu:cr1:p_1524652309877
+new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878 
+		 
     -->
     
     <!-- This need to be OR'ed for all valid NaLiDa-based profiles -->
@@ -65,6 +74,15 @@
 		  - ToolProfile: clarin.eu:cr1:p_1290431694581
 		  - WebLichtWebService: clarin.eu:cr1:p_1320657629644
 		  - Resource Bundle: clarin.eu:cr1:p_1320657629649
+		  
+		  Newer version of the profiles are partly, currently only if used  in CMDI 1.2 files: 
+		  - ExperimentProfile: clarin.eu:cr1:p_1524652309872 
+		  - TextCorpusProfile: clarin.eu:cr1:p_1524652309874
+		  - ToolProfile: clarin.eu:cr1:p_1524652309875
+		  - LexicalResourceProfile: clarin.eu:cr1:p_1524652309876
+		  - CourseProfile: clarin.eu:cr1:p_1524652309877
+		  - SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878 
+		  
 	  
 		</xsl:text>
                 </error>
@@ -96,7 +114,12 @@
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1290431694580')
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1320657629644')
                 or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1320657629649')
-  
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309872') 
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309874')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309875')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309876')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309877')
+                or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309878') 
                 
                 ">
                 <!-- CMDI 1.2 -->
@@ -113,7 +136,14 @@
 		- LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), 
  		- SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and		
 		- ExperimentProfile (clarin.eu:cr1:p_1447674760337)
-		- CourseProfile (clarin.eu:cr1:p_1505397653792).
+		- CourseProfile (clarin.eu:cr1:p_1505397653792)
+
+		  - ExperimentProfile: clarin.eu:cr1:p_1524652309872 
+		  - TextCorpusProfile: clarin.eu:cr1:p_1524652309874
+		  - ToolProfile: clarin.eu:cr1:p_1524652309875
+		  - LexicalResourceProfile: clarin.eu:cr1:p_1524652309876
+		  - CourseProfile: clarin.eu:cr1:p_1524652309877
+		  - SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878 
 		
     Additional we suppor the following profiles, which are utilized by the CLARIN-D-Centre in Tübingen
 		  - OLAC-DcmiTerms: clarin.eu:cr1:p_1288172614026
@@ -126,6 +156,7 @@
 		  - ToolProfile: clarin.eu:cr1:p_1290431694581
 		  - WebLichtWebService: clarin.eu:cr1:p_1320657629644
 		  - Resource Bundle: clarin.eu:cr1:p_1320657629649
+		  
                     
                     </xsl:text>
                 </error>
