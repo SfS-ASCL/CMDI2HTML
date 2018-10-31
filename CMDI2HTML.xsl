@@ -138,9 +138,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 		Currently the following profiles are being supported:
 		
 		- ToolProfile (clarin.eu:cr1:p_1447674760338),
-		- TextCorpusProfile ('clarin.eu:cr1:p_1442920133046),
-		- LexicalResourceProfile (clarin.eu:cr1:p_1445542587893), 
- 		- SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943), and		
+		- TextCorpusProfile ('clarin.eu:cr1:p_1442920133046)
+		- LexicalResourceProfile (clarin.eu:cr1:p_1445542587893) 
+ 		- SpeechCorpusProfile (clarin.eu:cr1:p_1485173990943)		
 		- ExperimentProfile (clarin.eu:cr1:p_1447674760337)
 		- CourseProfile (clarin.eu:cr1:p_1505397653792)
 
@@ -150,12 +150,20 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 		  - LexicalResourceProfile: clarin.eu:cr1:p_1524652309876
 		  - CourseProfile: clarin.eu:cr1:p_1524652309877
 		  - SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878 
+		  
+		    - TextCorpusProfile: clarin.eu:cr1:p_1527668176122
+		    - LexicalResourceProfile: clarin.eu:cr1:p_1527668176123
+		    - ToolProfile: clarin.eu:cr1:p_1527668176124
+		    - CourseProfile: clarin.eu:cr1:p_1527668176125
+		    - ExperimentProfile: clarin.eu:cr1:p_1527668176126
+		    - ResourceBundle: clarin.eu:cr1:p_1527668176127
+		    - SpeechCorpusProfile: clarin.eu:cr1:p_1527668176128
 		
-    Additional we suppor the following profiles, which are utilized by the CLARIN-D-Centre in Tübingen
+    Additionally we support the following profiles, which are utilized by the CLARIN-D-Centre in Tübingen
 		  - OLAC-DcmiTerms: clarin.eu:cr1:p_1288172614026
 		  - DcmiTerms: clarin.eu:cr1:p_1288172614023
 		  
-		  Older version of the profiles are partly supported, currently only if used  in CMDI 1.2 files: 
+		  Older versions of the profiles are partly supported, currently only if used in CMDI 1.2 files: 
 		  - ExperimentProfile: clarin.eu:cr1:p_1302702320451
 		  - LexicalResourceProfile: clarin.eu:cr1:p_1290431694579
 		  - TextCorpusProfile: clarin.eu:cr1:p_1290431694580
