@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -240,6 +241,25 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	    
 	    <xsl:apply-templates></xsl:apply-templates>
 	  </div>
+	  <footer class="site-footer h-card">
+	  <data class="u-url" href="/"></data>
+	  
+	  <div class="wrapper">
+	    
+	    <h2 class="footer-heading">TALAR - Tübingen Archive of Language Resources</h2>
+	    
+	    <div class="footer-col-wrapper">
+	      <div class="footer-col footer-col-1">
+	        <ul class="contact-list">
+	          <li class="p-name">TALAR - Tübingen Archive of Language Resources</li><li><a class="u-email" href="mailto:clarin-repository@uni-tuebingen.de">clarin-repository@uni-tuebingen.de</a></li></ul>
+	      </div>
+	      <div class="footer-col footer-col-1"><ul class="social-media-list"><li><a href="https://www.facebook.com/clarindeutschland"><svg class="svg-icon"><use xlink:href="https://talar.sfb833.uni-tuebingen.de/assets/minima-social-icons.svg#facebook"></use></svg> <span class="username">clarindeutschland</span></a></li><li><a href="https://www.twitter.com/CLARIN_D"><svg class="svg-icon"><use xlink:href="https://talar.sfb833.uni-tuebingen.de/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">CLARIN_D</span></a></li><li><a href="https://youtube.com/CLARINGermany"><svg class="svg-icon"><use xlink:href="https://talar.sfb833.uni-tuebingen.de/assets/minima-social-icons.svg#youtube"></use></svg> <span class="username">CLARINGermany</span></a></li></ul>
+	      </div>
+	    </div>
+	    
+	  </div>
+	  
+	  </footer>
 	</body>
       </html>
     </xsl:template>
