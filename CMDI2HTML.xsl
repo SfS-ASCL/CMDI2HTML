@@ -1048,17 +1048,36 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	      </td>	      	      
 	    </tr>
 	    <tr>
-              <td><b>Complete set of this data (as zip file): </b></td>
+	      <td><b>Resource landing page: </b></td>
+	      <td>
+	        <xsl:for-each select="./*">
+	          <xsl:if test="./*[local-name()='ResourceType'] = 'LandingPage'">
+	            <xsl:element name="a">
+	              <xsl:attribute name="href">				    
+	                <xsl:value-of select="./*[local-name()='ResourceRef']"/>
+	              </xsl:attribute>
+	              <xsl:value-of select="./*[local-name()='ResourceRef']"/>
+	            </xsl:element>
+	          </xsl:if>
+	        </xsl:for-each>
+	      </td>	      	      
+	    </tr>
+	    <tr>
+              <td><b>Packaged files for this dataset: </b></td>
               <td>
 		<xsl:for-each select="./*">
-		  <xsl:if test="./*[local-name()='ResourceType'] = 'LandingPage'">
+		  <ul>
+		  <xsl:if test="./*[local-name()='ResourceType']/@mimetype = 'application/zip'">
+		    <li>
 		    <xsl:element name="a">
 		      <xsl:attribute name="href">				    
 			<xsl:value-of select="./*[local-name()='ResourceRef']"/>
 		      </xsl:attribute>
 		      <xsl:value-of select="./*[local-name()='ResourceRef']"/>
 		    </xsl:element>
+		    </li>
 		  </xsl:if>
+		  </ul>
 		</xsl:for-each>
 	      </td>	      	      
 	    </tr>
