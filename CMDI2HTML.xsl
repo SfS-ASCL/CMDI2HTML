@@ -1088,7 +1088,8 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	<ul>
 	  <xsl:for-each select="./*">
 	    <xsl:choose>
-	      <xsl:when test="./*[local-name()='ResourceType'] = 'Resource'">	    
+	      <xsl:when test="./*[local-name()='ResourceType'] = 'Resource'">
+	        <xsl:variable name="id" select="./*[local-name()='ResourceType']/../@id"/>
 		<li>
 		  <xsl:element name="a">
 		    <xsl:attribute name="href">
@@ -1099,6 +1100,11 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 		   <xsl:if test="./*[local-name()='ResourceType']/@*[local-name()='mimetype']">
 		     <xsl:text> </xsl:text>
 		     (<xsl:value-of select="./*[local-name()='ResourceType']/@*[local-name()='mimetype']"/>)
+		     <xsl:for-each select="//*[local-name()='ResourceProxyInfo']">
+		     <xsl:if test="./@*:ref = $id">
+		       - <xsl:value-of select="./*:SizeInfo/*:TotalSize/*:Size"/> B
+		    </xsl:if>
+		     </xsl:for-each>
 		   </xsl:if>
 		</li>
 	      </xsl:when>
