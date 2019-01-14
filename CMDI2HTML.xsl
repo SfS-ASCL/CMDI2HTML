@@ -282,6 +282,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
             <li>
               <a href="#tabs-9">About...</a>
             </li>
+            <li>
+              <a href="#tabs-10">Cite as</a>
+            </li>
           </ul>
 
           <xsl:apply-templates/>
@@ -1452,6 +1455,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </div>
 
   </xsl:template>
+  
   <xsl:template match="//*[local-name() = 'ResourceProxyInfo']">
     <tr>
       <td>
@@ -1473,6 +1477,58 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       </td>
     </tr>
   </xsl:template>
+  
+  
+  <xsl:template match="*[local-name() = 'IsPartOfList']">
+    <div id="tabs-10">
+        <table>
+              <th>
+                <h4>
+                  <!-- Get the list of creators, last name followed by initial, comma separated -->
+                  <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']">
+                    <xsl:value-of select="*[local-name() = 'lastName']"/>&#160;
+                    <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>., 
+                   </xsl:for-each>
+                  <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
+                  (<xsl:value-of select="substring(//*[local-name()='PublicationDate'], string-length(//*[local-name()='PublicationDate']) - 3)"/>):
+                  
+                  <xsl:choose>
+                    
+                    <xsl:when test="//*[local-name() = 'ResourceTitle']">
+                      <xsl:choose>
+                        <!-- If the title is available in English, display it -->
+                        <xsl:when test="//*[local-name() = 'ResourceTitle']/@xml:lang='en'">
+                          <xsl:value-of select="//*[local-name() = 'ResourceTitle'][@xml:lang='en']"/>
+                        </xsl:when>
+                        <!-- If not, display the title in available language (might still be English but not specified as such) -->
+                        <xsl:otherwise>
+                          <xsl:value-of select="//*[local-name() = 'ResourceTitle']"/>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:when>
+                    
+                    <xsl:otherwise>
+                      <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                  <br/><br/>
+                  Persistent identifier:
+                  <xsl:element name="a">
+                    <xsl:attribute name="href">
+                      <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+                  </xsl:element>
+                  </h4>
+              </th>
+          <tr>
+            <td>This resource is provided through the technology partnership with the Tübingen Archive of Language Resources</td>
+          </tr>
+        </table>
+    </div>
+  </xsl:template>
+  
+ 
 
 
   <!-- Resource type specific templates -->
