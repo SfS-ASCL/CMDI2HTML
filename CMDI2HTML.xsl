@@ -1453,7 +1453,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         </table>
       </p>
     </div>
-
+<xsl:call-template name="CiteAs"/>
   </xsl:template>
   
   <xsl:template match="//*[local-name() = 'ResourceProxyInfo']">
@@ -1479,15 +1479,35 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   </xsl:template>
   
   
-  <xsl:template match="*[local-name() = 'IsPartOfList']">
+  <xsl:template name="CiteAs">
     <div id="tabs-10">
         <table>
               <th>
                 <h4>
                   <!-- Get the list of creators, last name followed by initial, comma separated -->
-                  <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']">
-                    <xsl:value-of select="*[local-name() = 'lastName']"/>&#160;
-                    <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>., 
+                  <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/.">
+                    
+                    <xsl:choose>
+                      <xsl:when test="position() = last()">
+                        <xsl:value-of select="*[local-name() = 'lastName']"/>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+                        <xsl:text>.</xsl:text>
+                      </xsl:when>
+                      <xsl:when test="position() = last() - 1">
+                        <xsl:value-of select="*[local-name() = 'lastName']"/>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+                        <xsl:text>. &amp; </xsl:text>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:value-of select="*[local-name() = 'lastName']"/>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+                        <xsl:text>., </xsl:text>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                     
                    </xsl:for-each>
                   <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
                   (<xsl:value-of select="substring(//*[local-name()='PublicationDate'], string-length(//*[local-name()='PublicationDate']) - 3)"/>):
