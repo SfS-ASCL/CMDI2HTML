@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -185,6 +186,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	  
 	  <link rel="stylesheet"
 		href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+          
+    <link rel="stylesheet" type="text/css"
+      href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/>
 	  
 	  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
 		  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -197,6 +201,19 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         
 	
 	<body>
+	  <header class="site-header" role="banner">
+	    <div class="wrapper"><a class="site-title" rel="author" href="https://talar.sfb833.uni-tuebingen.de/" style="margin-bottom:15px;">TALAR - Tübingen Archive of Language Resources</a><nav class="site-nav">
+	        <label for="nav-trigger">
+	          <span class="menu-icon">
+	            <svg viewBox="0 0 18 15" width="18px" height="15px">
+	              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+	            </svg>
+	          </span>
+	        </label>
+	        
+	        <div class="trigger" style="margin-bottom:15px;"><a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/about/">About</a><a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/contact/">Contact</a><a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/archival/">Data Management</a><a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/help/">Help</a><a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/privacy_html/">Privacy</a><a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/stats/">Statistics</a><a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/technology/">Technology</a></div>
+	    </nav></div>
+	  </header>
 	  <script>
     	    $(function() {
     	    $( "#tabs" ).tabs({
@@ -206,7 +223,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     	    });
 	  </script>
 
-	  <h1>Resource: <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></h1>
+	  <h1 style="margin-left:15px;"><b>Resource: <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></b></h1>
 	  
 	  <div id="tabs">
 	    <ul>
@@ -224,6 +241,41 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	    
 	    <xsl:apply-templates></xsl:apply-templates>
 	  </div>
+	  <footer class="site-footer h-card">
+	  <data class="u-url" href="/"></data>
+	  
+	  <div class="wrapper">
+	    
+	    <h2 class="footer-heading">TALAR - Tübingen Archive of Language Resources</h2>
+	    
+	    <div class="footer-col-wrapper">
+	      <div class="footer-col footer-col-1">
+	        <ul class="contact-list">
+	          <li class="p-name">TALAR - Tübingen Archive of Language Resources</li><li><a class="u-email" href="mailto:clarin-repository@uni-tuebingen.de">clarin-repository@uni-tuebingen.de</a></li></ul>
+	      </div>
+	      <div class="footer-col footer-col-1"><ul class="social-media-list">
+	        <li><a href="https://www.facebook.com/clarindeutschland">
+	          <svg class="svg-icon" id="facebook" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414">
+	            <path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0"/>
+	          </svg>
+	          <span class="username">clarindeutschland</span>
+	        </a></li>
+	        <li><a href="https://www.twitter.com/CLARIN_D">
+	          <svg class="svg-icon" id="twitter" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414">
+	             <path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z"></path>
+	           </svg>
+	            <span class="username">CLARIN_D</span>
+	        </a></li>
+	        <li><a href="https://youtube.com/CLARINGermany"><svg class="svg-icon" id="youtube" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M0 7.345c0-1.294.16-2.59.16-2.59s.156-1.1.636-1.587c.608-.637 1.408-.617 1.764-.684C3.84 2.36 8 2.324 8 2.324s3.362.004 5.6.166c.314.038.996.04 1.604.678.48.486.636 1.588.636 1.588S16 6.05 16 7.346v1.258c0 1.296-.16 2.59-.16 2.59s-.156 1.102-.636 1.588c-.608.638-1.29.64-1.604.678-2.238.162-5.6.166-5.6.166s-4.16-.037-5.44-.16c-.356-.067-1.156-.047-1.764-.684-.48-.487-.636-1.587-.636-1.587S0 9.9 0 8.605v-1.26zm6.348 2.73V5.58l4.323 2.255-4.32 2.24z"></path></svg>
+	          <span class="username">CLARINGermany</span>
+	        </a></li>
+	      </ul>
+	      </div>
+	    </div>
+	    
+	  </div>
+	  
+	  </footer>
 	</body>
       </html>
     </xsl:template>
@@ -314,7 +366,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	    </tr>
 	    <tr>
               <td><b>Tags: </b></td>
-              <td><xsl:value-of select="./*[local-name()='tags']//*[local-name()='tag']"/>
+              <td>
+                <xsl:apply-templates select="*[local-name()='tags']"></xsl:apply-templates>
+               
 	      </td>	      	      	      	      
 	    </tr>
 	    <tr>
@@ -367,12 +421,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	    <tr>
               <td><b>Institution: </b></td>
               <td>
-		<xsl:value-of select="./*[local-name()='Institution']/*[local-name()='Department']"/>
-		<xsl:if test="./*[local-name()='Institution']/*[local-name()='Organisation']/*[local-name()='name'] != ''">
-		  <xsl:text>, 
-		  </xsl:text>
-		</xsl:if>		
-		<xsl:value-of select="./*[local-name()='Institution']/*[local-name()='Organisation']/*[local-name()='name']"/>
+                
+                <xsl:apply-templates select="*[local-name()='Institution']"></xsl:apply-templates>
+              
 	      </td>
 	    </tr>
 	    <tr>
@@ -489,7 +540,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 			<xsl:element name="a">
 			  <xsl:attribute name="href">
 			    <xsl:value-of select="./*[local-name()='resolvablePID']"/>			  
-			    <xsl:value-of select=".//*[local-name()='AuthoritativeID'][1]/*[local-name()='id']"/>
+			  <!--  <xsl:value-of select=".//*[local-name()='AuthoritativeID'][1]/*[local-name()='id']"/> -->
 			  </xsl:attribute>
 			  <xsl:value-of select="./*[local-name()='resolvablePID']"/>			
 			</xsl:element>			
@@ -1488,5 +1539,80 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       
   </xsl:template>
     
+    <xsl:template match="*[local-name()='tags']">
+      <xsl:for-each select="*:tag[not(position()=last())]">
+        <xsl:value-of select="."/><xsl:text>, </xsl:text>
+      </xsl:for-each> 
+      <xsl:for-each select="*:tag[position()=last()]">
+        <xsl:value-of select="."/>
+      </xsl:for-each>
+     </xsl:template>
+    
+  <xsl:template match="*[local-name()='Institution']">
+      <xsl:if test="*[local-name()='Department'] != ''"><xsl:value-of select="*[local-name()='Department']"/></xsl:if>
+      
+    <xsl:for-each select="*:Organisation[not(position()=last())]">
+     
+      <xsl:if test="*:AuthoritativeIDs/*:AuthoritativeID/*:id">
+        <xsl:for-each select="*:AuthoritativeIDs/*:AuthoritativeID">
+          <xsl:if test="*:issuingAuthority='VIAF'">
+            <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select='*:id'/>
+              </xsl:attribute>         
+              <xsl:apply-templates select="../../*:name"></xsl:apply-templates> 
+            </xsl:element>
+          </xsl:if>          
+          <!-- <xsl:if test="not(*:issuingAuthority='VIAF')">
+             <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>         
+          </xsl:if> -->
+          <xsl:if test="not(*:AuthoritativeIDs)">
+            <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>
+  <br/>
+      </xsl:for-each>
+   
+    <xsl:for-each select="*:Organisation[position()=last()]">
+      <xsl:if test="*:AuthoritativeIDs/*:AuthoritativeID/*:id">
+        <xsl:for-each select="*:AuthoritativeIDs/*:AuthoritativeID">
+          <xsl:if test="*:issuingAuthority='VIAF'">
+            <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select='*:id'/>
+              </xsl:attribute>         
+              <xsl:apply-templates select="../../*:name"></xsl:apply-templates> 
+            </xsl:element>
+          </xsl:if>          
+         <!-- <xsl:if test="not(*:issuingAuthority='VIAF')">
+             <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>         
+          </xsl:if> -->
+          <xsl:if test="not(*:AuthoritativeIDs)">
+            <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>
+    </xsl:for-each>
+    </xsl:template>
+
+  <xsl:template match="*:name">
+    <xsl:if test="./@xml:lang">
+      <xsl:if test="./@xml:lang='nl'">
+        Dutch: <xsl:value-of select="."/><br/>
+          
+      </xsl:if>
+      <xsl:if test="./@xml:lang='en'">
+        English: <xsl:value-of select="."/><br/>
+      </xsl:if>
+      <xsl:if test="./@xml:lang='de'">
+        German: <xsl:value-of select="."/><br/>
+      </xsl:if>
+    </xsl:if>
+    <xsl:if test="not(./@xml:lang='en' or ./@xml:lang='de' or ./@xml:lang='nl')">
+      Other: <xsl:value-of select="."/><br/>
+     
+    </xsl:if>
+  </xsl:template>
+    
 </xsl:stylesheet>
-        
