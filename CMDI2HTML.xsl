@@ -97,12 +97,6 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   <xsl:template match="/cmde:CMD/cmde:Header">
     <!-- ignore header -->
   </xsl:template>
-
-
-  <xsl:template match="/cmd:CMD/cmd:Header">
-    <!-- ignore header -->
-  </xsl:template>
-
   <xsl:template match="/cmde:CMD">
     <xsl:choose>
       <xsl:when
@@ -243,7 +237,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     	    });
     	    });
 	  </script>
-
+        
         <h1 style="margin-left:15px;">
           <b>Resource: <xsl:value-of
               select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></b>
@@ -647,6 +641,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'StartYear']"/>
               <xsl:if test="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear'] != ''">
                 <xsl:text>
+
 		    --
 		  </xsl:text>
               </xsl:if>
@@ -2175,7 +2170,6 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       </p>
     </div>
   </xsl:template>
-
   <xsl:template match="*[local-name() = 'TextCorpusContext']">
     <div id="tabs-7">
       <p>
@@ -2359,5 +2353,4 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <xsl:value-of select="."/><br/>
     </xsl:if>
   </xsl:template>
-
 </xsl:stylesheet>
