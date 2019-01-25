@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0" xmlns:xlink="http://www.w3.org/1999/xlink"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet version="2.0"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:cmd="http://www.clarin.eu/cmd/"
-  xmlns:cmde="http://www.clarin.eu/cmd/1" xmlns:functx="http://www.functx.com" xmlns:foo="foo.com"
-  xmlns:math="http://www.w3.org/2005/xpath-functions/math" exclude-result-prefixes="xs xd functx">
+  xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+  xmlns:cmd="http://www.clarin.eu/cmd/"
+  xmlns:cmde="http://www.clarin.eu/cmd/1"
+  xmlns:functx="http://www.functx.com"
+  xmlns:foo="foo.com"
+  xmlns:math="http://www.w3.org/2005/xpath-functions/math"
+  exclude-result-prefixes="xs xd functx">
 
   <xd:doc scope="stylesheet">
     <xd:desc>
@@ -19,7 +25,7 @@
   <!-- <xsl:strip-space elements="cmd:Description"/> -->
   <xsl:strip-space elements="*"/>
 
-  <!--         ToolProfile:            clarin.eu:cr1:p_1447674760338 
+<!-- ToolProfile:            clarin.eu:cr1:p_1447674760338 
 		 TextCorpusProfile:      clarin.eu:cr1:p_1442920133046
 		 LexicalResourceProfile: clarin.eu:cr1:p_1445542587893
 		 ExperimentProfile:      clarin.eu:cr1:p_1447674760337
@@ -127,6 +133,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
           or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176126')
           or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176127')
           or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176128')
+          or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1548239945774')
           ">
         <!-- CMDI 1.2 -->
         <xsl:call-template name="mainProcessing"/>
@@ -492,7 +499,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <b>Tags: </b>
             </td>
             <td>
-              <xsl:value-of select="./*[local-name() = 'tags']//*[local-name() = 'tag']"/>
+              <xsl:apply-templates select="*[local-name() = 'tags']"/>
             </td>
           </tr>
           <tr>
@@ -608,9 +615,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                     test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
                     <xsl:element name="a">
                       <xsl:attribute name="href">
-                        <xsl:value-of
+                        <!--<xsl:value-of
                           select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                        />
+                        />-->
                       </xsl:attribute>
                       <xsl:value-of select="./*[local-name() = 'firstName']"/>
                       <xsl:text> </xsl:text>
@@ -1453,9 +1460,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         </table>
       </p>
     </div>
-<xsl:call-template name="CiteAs"/>
+    <xsl:call-template name="CiteAs"/>
   </xsl:template>
-  
+
   <xsl:template match="//*[local-name() = 'ResourceProxyInfo']">
     <tr>
       <td>
@@ -1477,78 +1484,69 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       </td>
     </tr>
   </xsl:template>
-  
-  
+
+
   <xsl:template name="CiteAs">
     <div id="tabs-10">
-        <table>
-              <th>
-                <h4>
-                  <!-- Get the list of creators, last name followed by initial, comma separated -->
-                  <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/.">
-                    
-                    <xsl:choose>
-                      <xsl:when test="position() = last()">
-                        <xsl:value-of select="*[local-name() = 'lastName']"/>
-                        <xsl:text> </xsl:text>
-                        <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-                        <xsl:text>.</xsl:text>
-                      </xsl:when>
-                      <xsl:when test="position() = last() - 1">
-                        <xsl:value-of select="*[local-name() = 'lastName']"/>
-                        <xsl:text> </xsl:text>
-                        <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-                        <xsl:text>. &amp; </xsl:text>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:value-of select="*[local-name() = 'lastName']"/>
-                        <xsl:text> </xsl:text>
-                        <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-                        <xsl:text>., </xsl:text>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                     
-                   </xsl:for-each>
-                  <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
-                  (<xsl:value-of select="substring(//*[local-name()='PublicationDate'], string-length(//*[local-name()='PublicationDate']) - 3)"/>):
-                  
-                  <xsl:choose>
-                    
-                    <xsl:when test="//*[local-name() = 'ResourceTitle']">
-                      <xsl:choose>
-                        <!-- If the title is available in English, display it -->
-                        <xsl:when test="//*[local-name() = 'ResourceTitle']/@xml:lang='en'">
-                          <xsl:value-of select="//*[local-name() = 'ResourceTitle'][@xml:lang='en']"/>
-                        </xsl:when>
-                        <!-- If not, display the title in available language (might still be English but not specified as such) -->
-                        <xsl:otherwise>
-                          <xsl:value-of select="//*[local-name() = 'ResourceTitle']"/>
-                        </xsl:otherwise>
-                      </xsl:choose>
-                    </xsl:when>
-                    
-                    <xsl:otherwise>
-                      <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
-                    </xsl:otherwise>
-                  </xsl:choose>
-                  <br/><br/>
-                  Persistent identifier:
-                  <xsl:element name="a">
-                    <xsl:attribute name="href">
-                      <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-                    </xsl:attribute>
-                    <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-                  </xsl:element>
-                  </h4>
-              </th>
-          <tr>
-            <td>This resource is provided through the technology partnership with the Tübingen Archive of Language Resources</td>
-          </tr>
-        </table>
+      <table>
+        <th>
+          <h4>
+            <!-- Get the list of creators, last name followed by initial, comma separated -->
+            <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/."> <xsl:choose>
+                <xsl:when test="position() = last()">
+                  <xsl:value-of select="*[local-name() = 'lastName']"/>
+                  <xsl:text> </xsl:text>
+                  <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+                  <xsl:text>.</xsl:text>
+                </xsl:when>
+                <xsl:when test="position() = last() - 1">
+                  <xsl:value-of select="*[local-name() = 'lastName']"/>
+                  <xsl:text> </xsl:text>
+                  <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+                  <xsl:text>. &amp; </xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="*[local-name() = 'lastName']"/>
+                  <xsl:text> </xsl:text>
+                  <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+                  <xsl:text>., </xsl:text>
+                </xsl:otherwise>
+              </xsl:choose> </xsl:for-each>
+            <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
+              (<xsl:value-of
+              select="substring(//*[local-name() = 'PublicationDate'], string-length(//*[local-name() = 'PublicationDate']) - 3)"
+            />): <xsl:choose> <xsl:when test="//*[local-name() = 'ResourceTitle']">
+                <xsl:choose>
+                  <!-- If the title is available in English, display it -->
+                  <xsl:when test="//*[local-name() = 'ResourceTitle']/@xml:lang = 'en'">
+                    <xsl:value-of select="//*[local-name() = 'ResourceTitle'][@xml:lang = 'en']"/>
+                  </xsl:when>
+                  <!-- If not, display the title in available language (might still be English but not specified as such) -->
+                  <xsl:otherwise>
+                    <xsl:value-of select="//*[local-name() = 'ResourceTitle']"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:when> <xsl:otherwise>
+                <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
+              </xsl:otherwise>
+            </xsl:choose>
+            <br/><br/> Persistent identifier: <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+              </xsl:attribute>
+              <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+            </xsl:element>
+          </h4>
+        </th>
+        <tr>
+          <td>This resource is provided through the technology partnership with the Tübingen Archive
+            of Language Resources</td>
+        </tr>
+      </table>
     </div>
   </xsl:template>
-  
- 
+
+
 
 
   <!-- Resource type specific templates -->
@@ -2295,6 +2293,80 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       <xsl:value-of select="."/>
     </li>
 
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'tags']">
+    <xsl:for-each select="*:tag[not(position() = last())]">
+      <xsl:value-of select="."/>
+      <xsl:text>, </xsl:text>
+    </xsl:for-each>
+    <xsl:for-each select="*:tag[position() = last()]">
+      <xsl:value-of select="."/>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Institution']">
+    <xsl:if test="*[local-name() = 'Department'] != ''">
+      <xsl:value-of select="*[local-name() = 'Department']"/>
+    </xsl:if>
+
+    <xsl:for-each select="*:Organisation[not(position() = last())]">
+
+      <xsl:if test="*:AuthoritativeIDs/*:AuthoritativeID/*:id">
+        <xsl:for-each select="*:AuthoritativeIDs/*:AuthoritativeID">
+          <xsl:if test="*:issuingAuthority = 'VIAF'">
+            <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select="*:id"/>
+              </xsl:attribute>
+              <xsl:apply-templates select="../../*:name"/>
+            </xsl:element>
+          </xsl:if>
+          <!-- <xsl:if test="not(*:issuingAuthority='VIAF')">
+             <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>         
+          </xsl:if> -->
+          <xsl:if test="not(*:AuthoritativeIDs)">
+            <xsl:apply-templates select="*[local-name() = 'name']"/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>
+      <br/>
+    </xsl:for-each>
+
+    <xsl:for-each select="*:Organisation[position() = last()]">
+      <xsl:if test="*:AuthoritativeIDs/*:AuthoritativeID/*:id">
+        <xsl:for-each select="*:AuthoritativeIDs/*:AuthoritativeID">
+          <xsl:if test="*:issuingAuthority = 'VIAF'">
+            <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select="*:id"/>
+              </xsl:attribute>
+              <xsl:apply-templates select="../../*:name"/>
+            </xsl:element>
+          </xsl:if>
+          <!-- <xsl:if test="not(*:issuingAuthority='VIAF')">
+             <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>         
+          </xsl:if> -->
+          <xsl:if test="not(*:AuthoritativeIDs)">
+            <xsl:apply-templates select="*[local-name() = 'name']"/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="*:name">
+    <xsl:if test="./@xml:lang">
+      <xsl:if test="./@xml:lang = 'nl'"> Dutch: <xsl:value-of select="."/><br/>
+      </xsl:if>
+      <xsl:if test="./@xml:lang = 'en'"> English: <xsl:value-of select="."/><br/>
+      </xsl:if>
+      <xsl:if test="./@xml:lang = 'de'"> German: <xsl:value-of select="."/><br/>
+      </xsl:if>
+    </xsl:if>
+    <xsl:if test="not(./@xml:lang = 'en' or ./@xml:lang = 'de' or ./@xml:lang = 'nl')"> Other:
+        <xsl:value-of select="."/><br/>
+    </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet>
