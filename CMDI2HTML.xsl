@@ -580,16 +580,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <b>Institution: </b>
             </td>
             <td>
-              <xsl:value-of
-                select="./*[local-name() = 'Institution']/*[local-name() = 'Department']"/>
-              <xsl:if
-                test="./*[local-name() = 'Institution']/*[local-name() = 'Organisation']/*[local-name() = 'name'] != ''">
-                <xsl:text>, 
-		  </xsl:text>
-              </xsl:if>
-              <xsl:value-of
-                select="./*[local-name() = 'Institution']/*[local-name() = 'Organisation']/*[local-name() = 'name']"
-              />
+              <xsl:apply-templates select="*[local-name()='Institution']"></xsl:apply-templates>
             </td>
           </tr>
           <tr>
@@ -615,9 +606,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                     test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
                     <xsl:element name="a">
                       <xsl:attribute name="href">
-                        <!--<xsl:value-of
+                        <xsl:value-of
                           select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                        />-->
+                        />
                       </xsl:attribute>
                       <xsl:value-of select="./*[local-name() = 'firstName']"/>
                       <xsl:text> </xsl:text>
@@ -740,9 +731,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                       <xsl:element name="a">
                         <xsl:attribute name="href">
                           <xsl:value-of select="./*[local-name() = 'resolvablePID']"/>
-                          <xsl:value-of
+                          <!--<xsl:value-of
                             select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                          />
+                          />-->
                         </xsl:attribute>
                         <xsl:value-of select="./*[local-name() = 'resolvablePID']"/>
                       </xsl:element>
