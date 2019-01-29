@@ -458,7 +458,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <b>Genre: </b>
             </td>
             <td>
-              <xsl:value-of select="./*[local-name() = 'Genre']"/>
+              <xsl:apply-templates select="./*[local-name() = 'Genre']"/>
             </td>
           </tr>
           <tr>
@@ -2288,6 +2288,18 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     <xsl:for-each select="*:tag[position() = last()]">
       <xsl:value-of select="."/>
     </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template match="*[local-name()='Genre']">
+    <xsl:choose>
+      <xsl:when test="following-sibling::*:Genre">
+        <xsl:value-of select="."/>
+        <xsl:text>, </xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Institution']">
