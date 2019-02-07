@@ -1392,8 +1392,8 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                   <xsl:text> </xsl:text> (<xsl:value-of
                     select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>)
                     <xsl:for-each select="//*[local-name() = 'ResourceProxyInfo']">
-                    <xsl:if test="./@*:ref = $id"> - <xsl:variable name="size"
-                        select="number(./*:SizeInfo/*:TotalSize/*:Size)"/>
+                    <xsl:if test="./@*[local-name() = 'ref'] = $id"> - <xsl:variable name="size"
+                      select="number(./*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size'])"/>
                       <xsl:choose>
                         <xsl:when test="$size lt 1024">
                           <xsl:value-of select="$size"/> B </xsl:when>
@@ -2281,18 +2281,18 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'tags']">
-    <xsl:for-each select="*:tag[not(position() = last())]">
+    <xsl:for-each select="./*[local-name() = 'tag'][not(position() = last())]">
       <xsl:value-of select="."/>
       <xsl:text>, </xsl:text>
     </xsl:for-each>
-    <xsl:for-each select="*:tag[position() = last()]">
+    <xsl:for-each select="./*[local-name() = 'tag'][position() = last()]">
       <xsl:value-of select="."/>
     </xsl:for-each>
   </xsl:template>
   
   <xsl:template match="*[local-name()='Genre']">
     <xsl:choose>
-      <xsl:when test="following-sibling::*:Genre">
+      <xsl:when test="following-sibling::*[local-name()='Genre']">
         <xsl:value-of select="."/>
         <xsl:text>, </xsl:text>
       </xsl:when>
@@ -2307,52 +2307,27 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       <xsl:value-of select="*[local-name() = 'Department']"/>
     </xsl:if>
 
-    <xsl:for-each select="*:Organisation[not(position() = last())]">
-
-      <xsl:if test="*:AuthoritativeIDs/*:AuthoritativeID/*:id">
-        <xsl:for-each select="*:AuthoritativeIDs/*:AuthoritativeID">
-          <xsl:if test="*:issuingAuthority = 'VIAF'">
+    <xsl:for-each select="./*[local-name() = 'Organisation']">
+      <xsl:if test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id']">
+        <xsl:for-each select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']">
+          <xsl:if test="./*[local-name() = 'issuingAuthority'] = 'VIAF'">
             <xsl:element name="a">
               <xsl:attribute name="href">
-                <xsl:value-of select="*:id"/>
+                <xsl:value-of select="./*[local-name() = 'id']"/>
               </xsl:attribute>
-              <xsl:apply-templates select="../../*:name"/>
+              <xsl:apply-templates select="../../*[local-name() = 'name']"/>
             </xsl:element>
           </xsl:if>
-          <!-- <xsl:if test="not(*:issuingAuthority='VIAF')">
-             <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>         
-          </xsl:if> -->
-          <xsl:if test="not(*:AuthoritativeIDs)">
+          <xsl:if test="not(/*[local-name() = 'AuthoritativeIDs'])">
             <xsl:apply-templates select="*[local-name() = 'name']"/>
           </xsl:if>
         </xsl:for-each>
       </xsl:if>
       <br/>
     </xsl:for-each>
-
-    <xsl:for-each select="*:Organisation[position() = last()]">
-      <xsl:if test="*:AuthoritativeIDs/*:AuthoritativeID/*:id">
-        <xsl:for-each select="*:AuthoritativeIDs/*:AuthoritativeID">
-          <xsl:if test="*:issuingAuthority = 'VIAF'">
-            <xsl:element name="a">
-              <xsl:attribute name="href">
-                <xsl:value-of select="*:id"/>
-              </xsl:attribute>
-              <xsl:apply-templates select="../../*:name"/>
-            </xsl:element>
-          </xsl:if>
-          <!-- <xsl:if test="not(*:issuingAuthority='VIAF')">
-             <xsl:apply-templates select="*[local-name()='name']"></xsl:apply-templates>         
-          </xsl:if> -->
-          <xsl:if test="not(*:AuthoritativeIDs)">
-            <xsl:apply-templates select="*[local-name() = 'name']"/>
-          </xsl:if>
-        </xsl:for-each>
-      </xsl:if>
-    </xsl:for-each>
   </xsl:template>
 
-  <xsl:template match="*:name">
+  <xsl:template match="*[local-name()='name']">
     <xsl:if test="./@xml:lang">
       <xsl:if test="./@xml:lang = 'nl'"> Dutch: <xsl:value-of select="."/><br/>
       </xsl:if>
@@ -2366,3 +2341,5 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </xsl:if>
   </xsl:template>
 </xsl:stylesheet>
+
+
