@@ -9,7 +9,6 @@
   xmlns:cmde="http://www.clarin.eu/cmd/1"
   xmlns:functx="http://www.functx.com"
   xmlns:foo="foo.com"
-  xmlns:math="http://www.w3.org/2005/xpath-functions/math"
   exclude-result-prefixes="xs xd functx">
 
   <xd:doc scope="stylesheet">
@@ -1397,16 +1396,16 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                       <xsl:choose>
                         <xsl:when test="$size &lt; 1024">
                           <xsl:value-of select="$size"/> B </xsl:when>
-                        <xsl:when test="$size &lt; math:pow(1024, 2)">
+                        <xsl:when test="$size &lt; 1024*1024">
                           <xsl:value-of select="format-number($size div 1024, '#.#')"/> KB </xsl:when>
-                        <xsl:when test="$size &lt; math:pow(1024, 3)">
-                          <xsl:value-of select="format-number($size div math:pow(1024, 2), '#.#')"/>
+                        <xsl:when test="$size &lt; 1024*1024*1024">
+                          <xsl:value-of select="format-number($size div (1024*1024), '#.#')"/>
                           MB </xsl:when>
-                        <xsl:when test="$size &lt; math:pow(1024, 4)">
-                          <xsl:value-of select="format-number($size div math:pow(1024, 3), '#.#')"/>
+                        <xsl:when test="$size &lt; 1024*1024*1024*1024">
+                          <xsl:value-of select="format-number($size div (1024*1024*1024), '#.#')"/>
                           GB </xsl:when>
                         <xsl:otherwise>
-                          <xsl:value-of select="format-number($size div math:pow(1024, 4), '#.#')"/>
+                          <xsl:value-of select="format-number($size div (1024*1024*1024*1024), '#.#')"/>
                           TB </xsl:otherwise>
                       </xsl:choose>
                     </xsl:if>
