@@ -1480,27 +1480,33 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
             <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/."> <xsl:choose>
                 <xsl:when test="position() = last()">
                   <xsl:value-of select="*[local-name() = 'lastName']"/>
-                  <xsl:text> </xsl:text>
+                  <xsl:text>, </xsl:text>
                   <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
                   <xsl:text>.</xsl:text>
                 </xsl:when>
                 <xsl:when test="position() = last() - 1">
                   <xsl:value-of select="*[local-name() = 'lastName']"/>
-                  <xsl:text> </xsl:text>
+                  <xsl:text>, </xsl:text>
                   <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
                   <xsl:text>. &amp; </xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:value-of select="*[local-name() = 'lastName']"/>
-                  <xsl:text> </xsl:text>
+                  <xsl:text>, </xsl:text>
                   <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
                   <xsl:text>., </xsl:text>
                 </xsl:otherwise>
               </xsl:choose> </xsl:for-each>
             <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
-              (<xsl:value-of
-              select="substring(//*[local-name() = 'PublicationDate'], string-length(//*[local-name() = 'PublicationDate']) - 3)"
-            />): <xsl:choose> <xsl:when test="//*[local-name() = 'ResourceTitle']">
+              <xsl:text> (</xsl:text>
+            <xsl:analyze-string select="//*[local-name() = 'PublicationDate']" regex="([1-2][0-9][0-9][0-9])">
+              <xsl:matching-substring>
+                <xsl:value-of select="regex-group(1)"/>
+              </xsl:matching-substring>
+            </xsl:analyze-string>
+            <xsl:text>): </xsl:text>
+            <xsl:choose>
+              <xsl:when test="//*[local-name() = 'ResourceTitle']">
                 <xsl:choose>
                   <!-- If the title is available in English, display it -->
                   <xsl:when test="//*[local-name() = 'ResourceTitle']/@xml:lang = 'en'">
