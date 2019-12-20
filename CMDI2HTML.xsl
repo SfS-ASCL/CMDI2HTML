@@ -1522,7 +1522,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
           <xsl:if test="*[local-name() = 'Checksums']/*[local-name() = 'sha1']/text()"><li><xsl:value-of select="*[local-name() = 'Checksums']/*[local-name() = 'sha1']"/>
             (SHA1)</li></xsl:if>
           <xsl:if test="*[local-name() = 'Checksums']/*[local-name() = 'sha256']/text()"><li><xsl:value-of select="*[local-name() = 'Checksums']/*[local-name() = 'sha256']"/>
-            (SHA1)</li></xsl:if>
+            (SHA256)</li></xsl:if>
         </ul>
       </td>
     </tr>
