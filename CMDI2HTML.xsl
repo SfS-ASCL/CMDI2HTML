@@ -380,7 +380,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <xsl:value-of select="./*[local-name() = 'ResourceTitle']"/>
             </td>
           </tr>
-          <xsl:if test="//*:IsPartOfList/*:IsPartOf">
+          <xsl:if test="//*:IsPartOfList/*:IsPartOf/text()">
             <tr>
               
               <td>
