@@ -1220,7 +1220,16 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                     <b>URL: </b>
                   </td>
                   <td>
-                    <xsl:value-of select="./*[local-name() = 'FileName']"/>
+                    <xsl:for-each select="./*[local-name() = 'Url']">
+                    <xsl:element name="a">
+                      <xsl:attribute name="href">
+                        <xsl:value-of select="."/>
+                      </xsl:attribute>
+                      <xsl:value-of select="."/>
+                    </xsl:element>
+                      <xsl:if test="position() != last()">, </xsl:if>
+                    </xsl:for-each>
+                  
                   </td>
                 </tr>
                 <tr>
@@ -1399,9 +1408,11 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
           <tr>
             <td><b>Packaged files for this dataset: </b></td>
             <td>
-              <xsl:for-each select="./*">
-                <ul>
-                  <xsl:if test="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
+              <xsl:if test="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
+              <ul>
+              <xsl:for-each select="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
+              
+                 
                     <li>
                       <xsl:element name="a">
                         <xsl:attribute name="href">
@@ -1410,9 +1421,11 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                         <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
                       </xsl:element>
                     </li>
-                  </xsl:if>
-                </ul>
+                 
+                
               </xsl:for-each>
+              </ul>
+              </xsl:if>
             </td>
           </tr>
         </table>
