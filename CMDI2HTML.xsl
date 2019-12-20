@@ -301,8 +301,8 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
                 <ul class="contact-list">
                   <li class="p-name">TALAR - Tübingen Archive of Language Resources</li>
                   <li>
-                    <a class="u-email" href="mailto:clarin-repository@uni-tuebingen.de"
-                      >clarin-repository@uni-tuebingen.de</a>
+                    <a class="u-email" href="mailto:clarin-repository@sfs.uni-tuebingen.de"
+                      >clarin-repository@sfs.uni-tuebingen.de</a>
                   </li>
                 </ul>
               </div>
@@ -380,6 +380,21 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <xsl:value-of select="./*[local-name() = 'ResourceTitle']"/>
             </td>
           </tr>
+          <xsl:if test="//*:IsPartOfList/*:IsPartOf">
+            <tr>
+              
+              <td>
+                <b>Part of Collection:</b>
+                
+              </td>
+              <td><a href="{//*:IsPartOfList/*:IsPartOf}"><xsl:value-of select="//*:IsPartOfList/*:IsPartOf"/></a>
+                
+              </td>
+            </tr>
+            
+          </xsl:if>
+          
+          
           <tr>
             <td>
               <b>Resource Class: </b>
@@ -1480,30 +1495,33 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
             <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/."> <xsl:choose>
                 <xsl:when test="position() = last()">
                   <xsl:value-of select="*[local-name() = 'lastName']"/>
-                  <xsl:text>, </xsl:text>
+                  <xsl:text> </xsl:text>
                   <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
                   <xsl:text>.</xsl:text>
                 </xsl:when>
                 <xsl:when test="position() = last() - 1">
                   <xsl:value-of select="*[local-name() = 'lastName']"/>
-                  <xsl:text>, </xsl:text>
+                  <xsl:text> </xsl:text>
                   <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
                   <xsl:text>. &amp; </xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:value-of select="*[local-name() = 'lastName']"/>
-                  <xsl:text>, </xsl:text>
+                  <xsl:text> </xsl:text>
                   <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
                   <xsl:text>., </xsl:text>
                 </xsl:otherwise>
               </xsl:choose> </xsl:for-each>
             <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
               <xsl:text> (</xsl:text>
+           <!--
             <xsl:analyze-string select="//*[local-name() = 'PublicationDate']" regex="([1-2][0-9][0-9][0-9])">
               <xsl:matching-substring>
                 <xsl:value-of select="regex-group(1)"/>
               </xsl:matching-substring>
-            </xsl:analyze-string>
+            </xsl:analyze-string> -->
+            <xsl:value-of select="substring-before(//*[local-name() = 'PublicationDate'], '-')"/>
+            
             <xsl:text>): </xsl:text>
             <xsl:choose>
               <xsl:when test="//*[local-name() = 'ResourceTitle']">
@@ -2345,6 +2363,11 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <xsl:value-of select="."/><br/>
     </xsl:if>
   </xsl:template>
+  
+  <xsl:template match="//*[local-name() = 'IsPartOfList']">
+    
+  </xsl:template>
+  
 </xsl:stylesheet>
 
 
