@@ -96,6 +96,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   <xsl:template match="/cmde:CMD/cmde:Header">
     <!-- ignore header -->
   </xsl:template>
+  
   <xsl:template match="/cmde:CMD">
     <xsl:choose>
       <xsl:when
@@ -380,19 +381,44 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <xsl:value-of select="./*[local-name() = 'ResourceTitle']"/>
             </td>
           </tr>
-          <xsl:if test="//*:IsPartOfList/*:IsPartOf/text()">
+          
+          
+          
+     <!--      <xsl:apply-templates select="//*[local-name() = 'IsPartOfList']"></xsl:apply-templates> -->
+          
+      <xsl:if test="//*[local-name() = 'IsPartOfList']/*[local-name() = 'IsPartOf']/text()">
             <tr>
               
               <td>
                 <b>Part of Collection:</b>
                 
               </td>
-              <td><a href="{//*:IsPartOfList/*:IsPartOf}"><xsl:value-of select="//*:IsPartOfList/*:IsPartOf"/></a>
+              <td><!-- <a href="{./*:IsPartOf}"><xsl:value-of select="./*:IsPartOf"/></a> -->
                 
+                
+                <xsl:for-each select="//*[local-name() = 'IsPartOfList']/*[local-name() = 'IsPartOf']">
+                  <table>
+                    
+                    <tr>
+                      <td>
+                      <xsl:element name="a">
+                        <xsl:attribute name="href">
+                          <xsl:value-of select="."/>
+                        </xsl:attribute>
+                        <xsl:value-of select="."/>
+                      </xsl:element>
+                      </td>
+                    </tr>
+                  </table>
+                    
+                  
+                </xsl:for-each>
               </td>
             </tr>
-            
-          </xsl:if>
+       </xsl:if>
+          
+          
+          
           
           
           <tr>
@@ -2363,8 +2389,38 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <xsl:value-of select="."/><br/>
     </xsl:if>
   </xsl:template>
+
+  <xsl:template match="*[local-name() = 'IsPartOfList']">
   
-  <xsl:template match="//*[local-name() = 'IsPartOfList']">
+    <!-- <xsl:if test=".//text()">
+    <tr>
+      
+      <td>
+        <b>Part of Collection:</b>
+        
+      </td>
+      <td>
+        
+   
+    <xsl:for-each select="./*[local-name() = 'IsPartOf']">
+      <ul>
+       
+          <li>
+            <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select="."/>
+              </xsl:attribute>
+              <xsl:value-of select="."/>
+            </xsl:element>
+          </li>
+        
+      </ul>
+    </xsl:for-each>
+      </td>
+    </tr>
+    </xsl:if> -->
+    
+    
     
   </xsl:template>
   
