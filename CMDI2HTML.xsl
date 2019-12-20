@@ -1508,17 +1508,21 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <xsl:value-of select="*[local-name() = 'ResProxFileName']"/>
       </td>
       <td>
+        <xsl:if test="*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text()">
         <xsl:for-each select="*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']">
           <xsl:value-of select="*[local-name() = 'Size']"/>
           <xsl:value-of select="*[local-name() = 'SizeUnit']"/>
         </xsl:for-each>
+        </xsl:if>
       </td>
       <td>
         <ul>
-          <li><xsl:value-of select="*[local-name() = 'Checksums']/*[local-name() = 'md5']"/>
-            (MD5)</li>
-          <li><xsl:value-of select="*[local-name() = 'Checksums']/*[local-name() = 'sha1']"/>
-            (SHA1)</li>
+          <xsl:if test="*[local-name() = 'Checksums']/*[local-name() = 'md5']/text()">  <li><xsl:value-of select="*[local-name() = 'Checksums']/*[local-name() = 'md5']"/>
+            (MD5)</li></xsl:if>
+          <xsl:if test="*[local-name() = 'Checksums']/*[local-name() = 'sha1']/text()"><li><xsl:value-of select="*[local-name() = 'Checksums']/*[local-name() = 'sha1']"/>
+            (SHA1)</li></xsl:if>
+          <xsl:if test="*[local-name() = 'Checksums']/*[local-name() = 'sha256']/text()"><li><xsl:value-of select="*[local-name() = 'Checksums']/*[local-name() = 'sha256']"/>
+            (SHA1)</li></xsl:if>
         </ul>
       </td>
     </tr>
