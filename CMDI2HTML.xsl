@@ -1429,7 +1429,32 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
             </td>
           </tr>
         </table>
-      </p> This data set contains the following data streams: <ul>
+      </p>  
+      <p>This data set contains the following subordinate data objects: </p>
+      <ul>
+        <xsl:for-each select="./*">
+          <xsl:choose>
+            <xsl:when test="./*[local-name() = 'ResourceType'] = 'Metadata' and not(contains(normalize-space(./*[local-name() = 'ResourceRef']),normalize-space(//*[local-name() = 'MdSelfLink'])))">
+              <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
+              <li>
+                <xsl:element name="a">
+                  <xsl:attribute name="href">
+                    <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+                  </xsl:attribute>
+                  <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+                </xsl:element>
+                <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
+                  <xsl:text> </xsl:text> (<xsl:value-of
+                    select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>)
+                  
+                </xsl:if>
+              </li>
+            </xsl:when>
+          </xsl:choose>
+        </xsl:for-each>
+      </ul>
+      <p>This data set contains the following data streams: </p>
+      <ul>
         <xsl:for-each select="./*">
           <xsl:choose>
             <xsl:when test="./*[local-name() = 'ResourceType'] = 'Resource'">
