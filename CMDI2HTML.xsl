@@ -193,6 +193,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"/>
 
         <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/>
+        <xsl:call-template name="JSONLD"/>
       </head>
 
 
@@ -1409,22 +1410,22 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
             <td><b>Packaged files for this dataset: </b></td>
             <td>
               <xsl:if test="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
-              <ul>
-              <xsl:for-each select="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
-              
-                 
+                <ul>
+                  <xsl:for-each select="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
+                    
+                    
                     <li>
-                      <xsl:element name="a">
+                      <!-- <xsl:element name="a">
                         <xsl:attribute name="href">
                           <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
                         </xsl:attribute>
                         <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                      </xsl:element>
+                      </xsl:element> -->
                     </li>
-                 
-                
-              </xsl:for-each>
-              </ul>
+                    
+                    
+                  </xsl:for-each>
+                </ul>
               </xsl:if>
             </td>
           </tr>
@@ -2465,6 +2466,107 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     
     
   </xsl:template>
+  
+  <xsl:template name="JSONLD">
+   <xsl:text>
+     
+   </xsl:text>
+    <xsl:element name="script">
+      <xsl:attribute name="type">application/ld+json</xsl:attribute>
+      
+      <xsl:text disable-output-escaping="yes">
+        /*&lt;![CDATA[*/
+      </xsl:text>     
+{
+  "url": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
+      "name": "<xsl:value-of select="//*[local-name() = 'ResourceName']"/>",
+        "description": " <xsl:value-of
+          select="//*:GeneralInfo/*:Descriptions/*:Description[@xml:lang='en']"/>",
+
+  "identifier": [<xsl:for-each select="//*:CMD/*:Resources/*:ResourceProxyList/*:ResourceProxy[contains(*:ResourceType,'LandingPage')]"><xsl:value-of select="./*:ResourceRef"/> </xsl:for-each>],
+  "sameAs": "<xsl:for-each select="//*:CMD/*:Resources/*:ResourceProxyList/*:ResourceProxy[contains(*:ResourceType,'LandingPage')]"><xsl:value-of select="./*:ResourceRef"/> </xsl:for-each>",
+      "mainEntityOfPage": "<xsl:for-each select="//*:CMD/*:Resources/*:ResourceProxyList/*:ResourceProxy[contains(*:ResourceType,'LandingPage')]"><xsl:value-of select="./*:ResourceRef"/> </xsl:for-each>",
+  "spatial": [
+    {
+      "name": "Germany",
+      "@type": "Place"
+    }
+  ],
+  "distribution": [
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V70.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V140.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V53.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V52.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V511.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V80.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V90.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V110.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V60.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V130.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V100.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    },
+    {
+      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V120.zip",
+      "encodingFormat": "application/zip",
+      "@type": "DataDownload"
+    }
+  ],
+  "includedInDataCatalog": {
+    "url": "https://vlo.clarin.eu",
+    "@type": "DataCatalog"
+  },
+  "@context": "https://schema.org",
+  "@type": "DataSet"
+  <xsl:text disable-output-escaping="yes">}/*]]&gt;*/</xsl:text>
+
+    </xsl:element>
+    
+  </xsl:template>
+  
+  
   
 </xsl:stylesheet>
 
