@@ -9,6 +9,7 @@
   xmlns:cmde="http://www.clarin.eu/cmd/1"
   xmlns:functx="http://www.functx.com"
   xmlns:foo="foo.com"
+  xmlns:fn="http://www.w3.org/2005/xpath-functions"
   exclude-result-prefixes="xs xd functx">
 
   <xd:doc scope="stylesheet">
@@ -29,7 +30,6 @@
 		 LexicalResourceProfile: clarin.eu:cr1:p_1445542587893
 		 ExperimentProfile:      clarin.eu:cr1:p_1447674760337
 		 
-
 new ExperimentProfile: clarin.eu:cr1:p_1524652309872 
 new TextCorpusProfile: clarin.eu:cr1:p_1524652309874
 new ToolProfile: clarin.eu:cr1:p_1524652309875
@@ -2466,9 +2466,12 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     
     
   </xsl:template>
-  
+
   <xsl:template name="JSONLD">
-   <xsl:text>
+    
+    <xsl:choose> 
+      <xsl:when test="//*[local-name() = 'ResourceName'] != '' and //*[local-name()='GeneralInfo']/*[local-name()='Descriptions']/*[local-name()='Description'][@xml:lang='en' or @xml:lang='de'] != ''">
+    <xsl:text>
      
    </xsl:text>
     <xsl:element name="script">
@@ -2478,82 +2481,89 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         /*&lt;![CDATA[*/
       </xsl:text>     
 {
-  "url": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
       "name": "<xsl:value-of select="//*[local-name() = 'ResourceName']"/>",
-        "description": " <xsl:value-of
-          select="//*:GeneralInfo/*:Descriptions/*:Description[@xml:lang='en']"/>",
+      
+      <xsl:variable name="description_in_cmdi" select="//*[local-name()='GeneralInfo']/*[local-name()='Descriptions']/*[local-name()='Description'][@xml:lang='en' or @xml:lang='de']"/>
+      "description": " <xsl:value-of select="replace($description_in_cmdi, '&quot;', '\\&quot;')"/>",
+      "url": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
+      "identifier": <xsl:for-each select="//*[local-name() = 'CMD']/*[local-name() = 'Resources']/*[local-name() = 'ResourceProxyList']/*[local-name() = 'ResourceProxy'][contains(*[local-name()='ResourceType'],'LandingPage')]">"<xsl:value-of select="./*[local-name() = 'ResourceRef']"/>" </xsl:for-each>,
+    
+      "sameAs": "<xsl:for-each select="//*[local-name() = 'CMD']/*[local-name() = 'Resources']/
+      *[local-name() = 'ResourceProxyList']/*[local-name() = 'ResourceProxy'][contains(*[local-name() = 'ResourceType'],'LandingPage')]">
+      <xsl:value-of select="./*[local-name() = 'ResourceRef']"/> </xsl:for-each>",
+      
+      <xsl:choose>
+        <xsl:when test="//*[local-name()='Project']/*[local-name()='Institution']/*[local-name()='Organisation']//*[local-name()='name'] != '' and concat(./*[local-name()='firstName'], ' ', ./*[local-name()='lastName']) != ''">
+      "creator": [
+        <xsl:choose>
+          <xsl:when test="//*[local-name()='Project']/*[local-name()='Institution']/*[local-name()='Organisation']//*[local-name()='name'] != ''">
+                   {
+          "@type": "Organization",
+          "sameAs": <xsl:text>[</xsl:text> <xsl:for-each select="//*[local-name()='Project']/*[local-name()='Institution']/*[local-name()='Organisation']//*[local-name()='AuthoritativeID']">
+          "<xsl:value-of select="./*[local-name()='id']"/>"
+            <xsl:if test="position() != last()">
+              <xsl:text>, </xsl:text>
+            </xsl:if>
+          </xsl:for-each><xsl:text>]</xsl:text>,
+          "name": "<xsl:value-of select="//*[local-name()='Project']/*[local-name()='Institution']/*[local-name()='Organisation']//*[local-name()='name']"/>"
+            }  <xsl:choose>
+              <xsl:when test="concat(./*[local-name()='firstName'], ' ', ./*[local-name()='lastName']) != ' '">
+                ,
+              </xsl:when>
+            </xsl:choose>
+              
+          </xsl:when>
+        </xsl:choose>
 
-  "identifier": [<xsl:for-each select="//*:CMD/*:Resources/*:ResourceProxyList/*:ResourceProxy[contains(*:ResourceType,'LandingPage')]"><xsl:value-of select="./*:ResourceRef"/> </xsl:for-each>],
-  "sameAs": "<xsl:for-each select="//*:CMD/*:Resources/*:ResourceProxyList/*:ResourceProxy[contains(*:ResourceType,'LandingPage')]"><xsl:value-of select="./*:ResourceRef"/> </xsl:for-each>",
-      "mainEntityOfPage": "<xsl:for-each select="//*:CMD/*:Resources/*:ResourceProxyList/*:ResourceProxy[contains(*:ResourceType,'LandingPage')]"><xsl:value-of select="./*:ResourceRef"/> </xsl:for-each>",
+        
+        <xsl:choose>
+          <xsl:when test="concat(./*[local-name()='firstName'], ' ', ./*[local-name()='lastName']) != ' '">
+        <xsl:for-each select="//*[local-name()='Creators']//*[local-name()='Person']">
+        {
+          "@type": "Person",
+          "givenName": "<xsl:value-of select="./*[local-name()='firstName']"/>",
+          "familyName": "<xsl:value-of select="./*[local-name()='lastName']"/>",
+          "name": "<xsl:value-of select="concat(./*[local-name()='firstName'], ' ', ./*[local-name()='lastName'])"/>"
+        }<xsl:if test="position() != last()">
+            <xsl:text>, </xsl:text>
+          </xsl:if> 
+        </xsl:for-each>
+          </xsl:when>
+        </xsl:choose>
+      ],
+      </xsl:when>
+    </xsl:choose>
+      <xsl:choose>
+        <xsl:when test="//*[local-name()='Licence']">
+          <xsl:if test="//*[local-name()='Licence'] != ''">
+      "license": "<xsl:value-of select="//*[local-name()='Licence']"/>",
+          </xsl:if>
+        </xsl:when>
+      </xsl:choose>
+      
   "spatial": [
     {
       "name": "Germany",
       "@type": "Place"
     }
   ],
-  "distribution": [
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V70.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V140.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V53.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V52.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V511.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V80.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V90.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V110.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V60.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V130.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V100.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    },
-    {
-      "contentUrl": "http://hdl.handle.net/11858/00-1778-0000-0005-896E-B@GN_V120.zip",
-      "encodingFormat": "application/zip",
-      "@type": "DataDownload"
-    }
-  ],
+  
+      <xsl:choose>
+        <xsl:when test="//*[local-name()='ResourceProxy']">
+          <xsl:if test="//*[local-name()='ResourceProxy'] != ''">
+           
+              "distribution": [<xsl:for-each select="//*[local-name()='ResourceProxy']">
+              {
+              "contentURL": "<xsl:value-of select="./*[local-name()='ResourceRef']"/>",
+              "encodingFormat": "<xsl:value-of select="./*[local-name()='ResourceType']/@mimetype"/>",
+              "@type": "DataDownload"
+              }<xsl:if test="position() != last()">
+                <xsl:text>, </xsl:text>
+              </xsl:if> 
+            </xsl:for-each>],
+          </xsl:if>
+        </xsl:when>
+      </xsl:choose>
   "includedInDataCatalog": {
     "url": "https://vlo.clarin.eu",
     "@type": "DataCatalog"
@@ -2561,13 +2571,13 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   "@context": "https://schema.org",
   "@type": "DataSet"
   <xsl:text disable-output-escaping="yes">}/*]]&gt;*/</xsl:text>
-
+      
+ 
     </xsl:element>
-    
+      </xsl:when>   
+    </xsl:choose>
   </xsl:template>
   
   
   
 </xsl:stylesheet>
-
-
