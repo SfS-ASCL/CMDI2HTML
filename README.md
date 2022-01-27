@@ -14,7 +14,12 @@ The conversion from SfS-specific CMDI to MARC21 is currently being served at (VP
 
 The software has no official release yet. The software has NO experimental support for CMDI v1.2 YET.
 
-CMDI2HTML exploits context-specific information from SfS-based CMDI profiles to minimize information loss.
+CMDI2HTML exploits context-specific information from SfS-based CMDI profiles to
+minimize information loss.
+
+A recent edition has been the inclusion of a link for CMDI Explorer. For this,
+the file "CMDI2HTML_xslt1.0.xsl" has been added to the webapps directory. At the
+time of writing, it is this file that is currently served by the TALAR repository.
 
 # Publications
 
