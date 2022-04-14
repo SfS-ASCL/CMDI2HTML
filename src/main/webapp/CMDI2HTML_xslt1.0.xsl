@@ -1450,17 +1450,19 @@
 					<tr>
 						<td><b>Explore Collection (external application): </b></td>
 						<td>
-						  
-							<xsl:element name="a">
-								<xsl:attribute name="href">
-								      https://weblicht.sfs.uni-tuebingen.de/CMDIExplorer/input/#/vcr/<xsl:call-template name="url-encode">
-									<xsl:with-param name="str" select = "normalize-space(//*[local-name() = 'MdSelfLink'])" />
-								      </xsl:call-template>
-								</xsl:attribute>
-								<xsl:text>
-								    Open Link in CMDI Explorer
-								</xsl:text>
-							</xsl:element>
+						  <xsl:element name="a">
+						    <xsl:attribute  name="style">
+						      border:solid; 
+						    </xsl:attribute>
+						    <xsl:attribute name="href">
+						      https://weblicht.sfs.uni-tuebingen.de/CMDIExplorer/input/#/vcr/<xsl:call-template name="url-encode">
+						      <xsl:with-param name="str" select = "normalize-space(//*[local-name() = 'MdSelfLink'])" />
+						    </xsl:call-template>
+						    </xsl:attribute>
+						    <xsl:text>
+						      Open Link in CMDI Explorer
+						    </xsl:text>
+						  </xsl:element>
 						</td>
 					</tr>					
 					<tr>

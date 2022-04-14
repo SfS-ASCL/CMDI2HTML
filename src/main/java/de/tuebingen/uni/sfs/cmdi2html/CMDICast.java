@@ -81,7 +81,7 @@ public class CMDICast {
 	    String clean_xsl = "CMDI2CMDI.xsl";
 	    InputStream clean_xsl_stream = getInputStream( clean_xsl );
 	    
-            String foo_xsl = "CMDI2HTML.xsl";
+            String foo_xsl = "CMDI2HTML_xslt1.0.xsl";
 	    InputStream foo_xsl_stream = getInputStream( foo_xsl );
             
 	    String name = FilenameUtils.removeExtension(dcfile.getName());
