@@ -6,13 +6,13 @@ For more information, please contact thorsten.trippel@uni-tuebingen.de
 
 # Website
 
-The conversion from SfS-specific CMDI to MARC21 is currently being served at (VPN access required):
+The conversion from SfS-specific CMDI to HTML is currently being served at (VPN access required):
 
 ```http://weblicht.sfs.uni-tuebingen.de/converter/CMDI2HTML/ ```
 
 # Status
 
-The software has no official release yet. The software has NO experimental support for CMDI v1.2 YET.
+The software has no official release yet. The software has experimental support for CMDI v1.2.
 
 CMDI2HTML exploits context-specific information from SfS-based CMDI profiles to
 minimize information loss.
