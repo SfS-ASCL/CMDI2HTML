@@ -17,9 +17,11 @@ The software has no official release yet. The software has experimental support 
 CMDI2HTML exploits context-specific information from SfS-based CMDI profiles to
 minimize information loss.
 
-A recent edition has been the inclusion of a link for CMDI Explorer. For this,
-the file "CMDI2HTML_xslt1.0.xsl" has been added to the webapps directory. At the
-time of writing, it is this file that is currently served by the TALAR repository.
+A recent edition has been the inclusion of a link for CMDI Explorer. Note that
+this code is superseded by
+
+```https://github.com/SfS-ASCL/metadatatransformation ```
+
 
 # Publications
 
